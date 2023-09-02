@@ -113,16 +113,12 @@
 		l-0.179,0.178l-6.176,6.401L635.314,605.922z"/>
 </g>
 </svg>
+<div class="cover">
+	<p>Are You Lost In the Ocean?</p>
+</div>
 </template>
 
 <style scoped>
-body {
-  background: #00E7DC;
-  margin:0; 
-  padding:0; 
-  overflow:hidden
-}
-
 h1 {
   font-family: 'Nunito', sans-serif;
   color: #fff;
@@ -137,5 +133,22 @@ svg {
   left:0;
   height: 100%;
   width:100%
+}
+
+.cover {
+	background-color: aqua;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	top: 0;
+	display: flex;
+	justify-content: center;
+}
+
+.cover p {
+	font-size: 3em;
+	margin-top: 40px;
+	color: darkblue;
 }
 </style>

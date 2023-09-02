@@ -59,15 +59,8 @@
 }
 
 body {
-  @import url("https://fonts.googleapis.com/css?family=DM+Sans:400,500|Jost:400,500,600&display=swap");
-
-  color: #2b2c48;
-  font-family: "Jost", sans-serif;
   min-height: 100vh;
-  background: var(--color-background);
-  transition:
-    color 0.5s,
-    background-color 0.5s;
+  /* background: var(--color-background); */
   line-height: 1.6;
   font-family:
     Inter,
@@ -86,4 +79,6 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  margin: 0 !important;
+  box-sizing: border-box;
 }

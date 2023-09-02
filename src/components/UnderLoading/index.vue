@@ -29,8 +29,6 @@
 .container {
   left: 50%;
   margin: auto -50px;
-  position: absolute;
-  top: 50%;
 }
 .swing div {
   border-radius: 50%;

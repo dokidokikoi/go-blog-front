@@ -1,0 +1,84 @@
+<script setup>
+import SayHello from '@/components/SayHello/index.vue';
+
+</script>
+
+<template>
+<div class="container">
+  <div class="cover"></div>
+  <SayHello width="100" />
+  <div class="waves">
+    <div class="wave item1" id="banner_wave_1"></div>
+    <div class="wave item2"></div>
+    <div class="wave item3"></div>
+  </div>
+</div>
+</template>
+
+<style scoped>
+.cover {
+  position: fixed;
+  width: 100%;
+  height: 85vh;
+  background-color: aqua;
+  background-image: url('../../assets/images/bg.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  z-index: -1;
+}
+.container {
+  width: 100%;
+  height: 80vh;
+  /* background-color: aqua;
+  background-image: url('../../assets/images/bg.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  overflow: hidden; */
+  position: relative;
+}
+.waves {
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -0.688rem;
+  min-height: 3.125rem;
+  max-height: 9.375rem;
+  position: absolute;
+  bottom: 0;
+}
+.wave {
+  background: url("https://gcore.jsdelivr.net/gh/starlovei/cdn/img/other/wave1.png");
+  background-position: 0;
+  background-repeat: repeat-x;
+  /* background-size: contain; */
+  position: absolute;
+  left: -236px;
+  bottom: 0;
+  width: 400%;
+  overflow: visible;
+}
+.item1 {
+  height: 15vh;
+  opacity: 1;
+  animation: wave 10s linear infinite;
+}
+.item2 {
+  height: 17vh;
+  opacity: 0.8;
+  animation: wave 16s linear infinite;
+}
+.item3 {
+  height: 19vh;
+  opacity: 0.6;
+  animation: wave 18s linear infinite;
+}
+
+@keyframes wave {
+  0% {
+    background-position: -236px;
+  }
+  100% {
+    background-position: -1233px;}
+}
+</style>

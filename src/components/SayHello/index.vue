@@ -25,14 +25,10 @@ onMounted(()=>{
 </template>
 
 <style scoped>
-body {
-  background: #ff837b;
-}
-
 #container {
-  width: 600px;
+  width: 280px;
   position: absolute;
-  top: 50%;
+  top: 24%;
   left: 50%;
   transform: translate(-53%, -60%);
 }
