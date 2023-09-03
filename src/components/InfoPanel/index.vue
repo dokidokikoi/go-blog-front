@@ -116,6 +116,7 @@ import EmailIcon from '../icons/EmailIcon.vue';
   font-size: 1.2em;
   font-weight: 500;
   padding-left: 16px;
+  box-shadow: 10px 10px 5px grey;
 }
 .all-tags .content {
   margin-top: 10px;

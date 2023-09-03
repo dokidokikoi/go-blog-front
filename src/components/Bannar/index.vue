@@ -1,14 +1,13 @@
 <script setup>
-import SayHello from '@/components/SayHello/index.vue';
 
 </script>
 
 <template>
 <div class="container">
+  <slot></slot>
   <div class="cover"></div>
-  <SayHello width="100" />
   <div class="waves">
-    <div class="wave item1" id="banner_wave_1"></div>
+    <div class="wave item1"></div>
     <div class="wave item2"></div>
     <div class="wave item3"></div>
   </div>
@@ -19,8 +18,7 @@ import SayHello from '@/components/SayHello/index.vue';
 .cover {
   position: fixed;
   width: 100%;
-  height: 85vh;
-  background-color: aqua;
+  height: 80vh;
   background-image: url('../../assets/images/bg.png');
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -29,14 +27,9 @@ import SayHello from '@/components/SayHello/index.vue';
 }
 .container {
   width: 100%;
-  height: 80vh;
-  /* background-color: aqua;
-  background-image: url('../../assets/images/bg.png');
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  background-size: cover;
-  overflow: hidden; */
+  height: 65vh;
   position: relative;
+  overflow: hidden;
 }
 .waves {
   width: 100%;
@@ -45,7 +38,7 @@ import SayHello from '@/components/SayHello/index.vue';
   min-height: 3.125rem;
   max-height: 9.375rem;
   position: absolute;
-  bottom: 0;
+  bottom: -11px;
 }
 .wave {
   background: url("https://gcore.jsdelivr.net/gh/starlovei/cdn/img/other/wave1.png");
@@ -59,17 +52,17 @@ import SayHello from '@/components/SayHello/index.vue';
   overflow: visible;
 }
 .item1 {
-  height: 15vh;
+  height: 19vh;
   opacity: 1;
-  animation: wave 10s linear infinite;
+  animation: wave 22s linear infinite;
 }
 .item2 {
-  height: 17vh;
+  height: 21vh;
   opacity: 0.8;
-  animation: wave 16s linear infinite;
+  animation: wave 14s linear infinite;
 }
 .item3 {
-  height: 19vh;
+  height: 23vh;
   opacity: 0.6;
   animation: wave 18s linear infinite;
 }

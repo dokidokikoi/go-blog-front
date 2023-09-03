@@ -1,12 +1,13 @@
 <script setup>
 import ArticlePage from '@/components/ArticlePage/index.vue';
 import InfoPanel from '@/components/InfoPanel/index.vue';
-import Brand from './Brand.vue';
+import Bannar from '@/components/Bannar/index.vue';
+import SayHello from '@/components/SayHello/index.vue';
 </script>
 
 <template>
 <div class="container">
-  <Brand />
+  <Bannar style="height: 80vh;"><SayHello width="100" /></Bannar>
   <div style="background-color: white; width: 100%;">
     <div class="body">
       <ArticlePage />
@@ -20,7 +21,8 @@ import Brand from './Brand.vue';
 .body {
   display: flex;
   justify-content: space-between;
-  width: 74rem;
+  max-width: 74rem;
+  min-width: 60rem;
   margin: auto;
 }
 </style>

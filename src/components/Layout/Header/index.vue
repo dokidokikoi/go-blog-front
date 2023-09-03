@@ -17,8 +17,8 @@ onMounted(() => {
     var scrollHeight = window.scrollY || document.documentElement.scrollTop;
 
     // 在这里可以根据滚动条高度执行相应的操作
-    if (scrollHeight >= 500) {
-      menu.style.backgroundColor = 'rgb(36, 216, 216)';
+    if (scrollHeight >= 380) {
+      menu.style.backgroundColor = 'cyan';
     } else {
       menu.style.backgroundColor = 'transparent';
     }
@@ -34,7 +34,7 @@ function jump(path) {
 <template>
   <ul class="menu" id="menu">
     <li class="title menu-item" @click="jump('/')">Harukaze</li>
-    <li class="menu-item" @click="jump('/techs')"><TechIcon class="menu-icon"/>技术文章</li>
+    <li class="menu-item" @click="jump('/')"><TechIcon class="menu-icon"/>首页</li>
     <li class="menu-item" @click="jump('/notes')"><NoteIcon class="menu-icon"/>随笔</li>
     <li class="menu-item" @click="jump('/archives')"><ArchiveIcon class="menu-icon"/>归档</li>
     <li class="menu-item" @click="jump('/shelf')"><ShekfIcon class="menu-icon"/>书架</li>
@@ -63,7 +63,9 @@ ul {
   background-color: transparent;
   transition-duration: .3s;
 }
-
+.menu:hover {
+  background: cyan!important;
+}
 .menu-item {
   /* display: inline-block; */
   box-sizing: border-box;
@@ -79,10 +81,11 @@ ul {
   display: flex;
   justify-content: center;
   align-items: center;
+  transition-duration: .3s;
 }
 
 .menu-item:hover {
-  background: rgb(17, 180, 180);
+  background-color:cyan;
 }
 
 .menu-icon {
@@ -94,9 +97,10 @@ ul {
   font-size: 28px;
   font-weight: bold;
   margin-right: 40px;
+  transition-delay: .3s;
 }
 .title.menu-item:hover {
-  background: rgb(36, 216, 216);
+  background: rgba(67, 237, 237, 1);
 }
 
 .last {

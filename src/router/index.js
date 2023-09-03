@@ -15,29 +15,24 @@ const router = createRouter({
           component: () => import("../views/Home/Welcome.vue"),
         },
         {
-          path: "/techs",
-          name: "techs",
-          component: () => import("../views/404/index.vue"),
-        },
-        {
           path: "/notes",
           name: "notes",
-          component: () => import("../views/404/index.vue"),
+          component: () => import("../views/Notes/index.vue"),
         },
         {
           path: "/archives",
           name: "archives",
-          component: () => import("../views/404/index.vue"),
+          component: () => import("../views/Archive/index.vue"),
         },
         {
           path: "/shelf",
           name: "shelf",
-          component: () => import("../views/404/index.vue"),
+          component: () => import("../views/Shelf/index.vue"),
         },
         {
           path: "/link",
           name: "link",
-          component: () => import("../views/404/index.vue"),
+          component: () => import("../views/Link/index.vue"),
         },
         {
           path: "/intro",
