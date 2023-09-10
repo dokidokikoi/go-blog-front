@@ -59,10 +59,12 @@ function loadArticle() {
   border-radius: .625rem;
   overflow: hidden;
   transition: all .2s ease-in-out 0s;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
 }
 .article:hover {
   box-shadow: 0 0 2rem var(--box-bg-shadow);
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  box-shadow: 0 0 10px rgba(0,0,0,.2);
 }
 .article:nth-child(even) {
   flex-direction: row-reverse;

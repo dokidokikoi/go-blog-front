@@ -8,7 +8,7 @@ import SayHello from '@/components/SayHello/index.vue';
 <template>
 <div class="container">
   <Bannar style="height: 80vh;"><SayHello width="100" /></Bannar>
-  <div style="background-color: white; width: 100%;">
+  <div style="background-image: linear-gradient(white, rgb(255, 255, 250)); width: 100%;">
     <div class="body">
       <ArticlePage />
       <InfoPanel />

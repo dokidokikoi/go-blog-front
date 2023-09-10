@@ -51,7 +51,14 @@ import '@kangc/v-md-editor/lib/plugins/emoji/emoji.css';
 import 'prismjs/components/prism-json';
 import createTodoListPlugin from '@kangc/v-md-editor/lib/plugins/todo-list/index';
 import '@kangc/v-md-editor/lib/plugins/todo-list/todo-list.css';
-
+// align 插件
+import createAlignPlugin from '@kangc/v-md-editor/lib/plugins/align';
+// 高亮代码行
+import createHighlightLinesPlugin from '@kangc/v-md-editor/lib/plugins/highlight-lines/index';
+import '@kangc/v-md-editor/lib/plugins/highlight-lines/highlight-lines.css';
+// 提示插件 --vuepress 主题已内置此插件
+// import createTipPlugin from '@kangc/v-md-editor/lib/plugins/tip/index';
+// import '@kangc/v-md-editor/lib/plugins/tip/tip.css';
 VMdEditor.Codemirror = Codemirror;
 VMdEditor.use(vuepressTheme, {
   Prism,
@@ -62,6 +69,9 @@ VMdEditor.use(vuepressTheme, {
 .use(createLineNumbertPlugin())
 .use(createEmojiPlugin())
 .use(createTodoListPlugin())
+.use(createAlignPlugin())
+.use(createHighlightLinesPlugin())
+// .use(createTipPlugin())
 
 VMdPreview.use(vuepressTheme, {
   Prism,
@@ -73,6 +83,9 @@ VMdPreview.use(vuepressTheme, {
 .use(createLineNumbertPlugin())
 .use(createEmojiPlugin())
 .use(createTodoListPlugin())
+.use(createHighlightLinesPlugin())
+.use(createAlignPlugin())
+// .use(createTipPlugin())
 
 const app = createApp(App);
 

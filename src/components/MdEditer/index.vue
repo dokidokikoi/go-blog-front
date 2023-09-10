@@ -2,7 +2,7 @@
   <v-md-editor 
   :disabled-menus="[]" 
   v-model="text" 
-  height="400px" 
+  height="520px" 
   @upload-image="handleUploadImage"
   @save="saveText"
   @image-click="imageFocus"
