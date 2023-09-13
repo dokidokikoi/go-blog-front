@@ -86,6 +86,21 @@ const router = createRouter({
           name: "admin_message",
           component: () => import("../views/admin/Message/index.vue"),
         },
+        {
+          path: "/admin/sites",
+          name: "admin_sites",
+          component: () => import("../views/admin/Site/index.vue"),
+        },
+        {
+          path: "/admin/links",
+          name: "admin_links",
+          component: () => import("../views/admin/Link/index.vue"),
+        },
+        {
+          path: "/admin/profile",
+          name: "admin_profile",
+          component: () => import("../views/admin/Profile/index.vue"),
+        },
       ]
     },
     {

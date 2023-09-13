@@ -24,8 +24,6 @@ function showDialog() {
     <el-table-column prop="logo" label="logo" />
     <el-table-column prop="url" label="url" />
     <el-table-column prop="summary" label="简介" />
-    <el-table-column prop="category" label="分类" />
-    <el-table-column prop="tags" label="标签" />
     <el-table-column prop="action" label="操作">
       <template #default="props" style="padding: 10px, 0;">
         <el-button

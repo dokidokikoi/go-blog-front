@@ -45,7 +45,11 @@
       <el-icon><Message /></el-icon>
       <span>留言</span>
     </el-menu-item>
-    <el-menu-item index="/admin/link">
+    <el-menu-item index="/admin/sites">
+      <el-icon><Link /></el-icon>
+      <span>链接管理</span>
+    </el-menu-item>
+    <el-menu-item index="/admin/links">
       <el-icon><Link /></el-icon>
       <span>友链</span>
     </el-menu-item>
