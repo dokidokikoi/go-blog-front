@@ -38,7 +38,7 @@
   min-height: 3.125rem;
   max-height: 9.375rem;
   position: absolute;
-  bottom: -11px;
+  bottom: -14px;
 }
 .wave {
   background: url("https://gcore.jsdelivr.net/gh/starlovei/cdn/img/other/wave1.png");
@@ -52,16 +52,19 @@
   overflow: visible;
 }
 .item1 {
+  left: -236px;
   height: 19vh;
   opacity: 1;
   animation: wave 22s linear infinite;
 }
 .item2 {
+  left: -246px;
   height: 21vh;
   opacity: 0.8;
   animation: wave 14s linear infinite;
 }
 .item3 {
+  left: -286px;
   height: 23vh;
   opacity: 0.6;
   animation: wave 18s linear infinite;

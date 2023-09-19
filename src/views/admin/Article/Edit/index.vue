@@ -2,9 +2,20 @@
 import MdEditer from "@/components/MdEditer/index.vue"
 import Upload from "@/components/Upload/index.vue"
 import { ref } from "vue";
+import { listCategory } from "@/api/category"
+import { listTag } from "@/api/tag"
+import { listSeries } from "@/api/series"
 
 const showSaveArticle = ref(false)
-const articleParam = ref({})
+const articleParam = ref({
+  tags: []
+})
+const categories = ref([
+])
+const series = ref([
+])
+const tags = ref([
+])
 
 function showDrawer() {
   showSaveArticle.value = true
@@ -12,6 +23,28 @@ function showDrawer() {
 function cancelClick() {
   showSaveArticle.value = false
 }
+function setImage(url) {
+  articleParam.value.cover = url
+  console.log("setimage", url)
+}
+function getCategoryList() {
+  listCategory({type: 1}).then(res => {
+    categories.value = res.data.list
+  })
+}
+function getSeriesList() {
+  listSeries().then(res => {
+    series.value = res.data.list
+  })
+}
+function getTagList() {
+  listTag({type: 1}).then(res => {
+    tags.value = res.data.list
+  })
+}
+getCategoryList()
+getSeriesList()
+getTagList()
 </script>
 
 <template>
@@ -29,21 +62,18 @@ function cancelClick() {
           <el-input v-model="articleParam.title" />
         </el-form-item>
         <el-form-item label="文章分类">
-          <el-select v-model="articleParam.category" placeholder="选择分类">
-            <el-option label="技术文章" value="tech" />
-            <el-option label="随笔" value="note" />
+          <el-select v-model="articleParam.category" clearable placeholder="选择分类">
+            <el-option v-for="item in categories" :key="item.id" :label="item.category_name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="文章标签">
-          <el-select v-model="articleParam.category" placeholder="选择标签">
-            <el-option label="golang" value="golang" />
-            <el-option label="linux" value="linux" />
+          <el-select v-model="articleParam.tags" multiple clearable placeholder="选择标签">
+            <el-option v-for="item in tags" :key="item.id" :label="item.tag_name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="文章系列">
-          <el-select v-model="articleParam.series" placeholder="选择系列">
-            <el-option label="golang设计模式" value="golang设计模式" />
-            <el-option label="linux内核" value="linux内核" />
+          <el-select v-model="articleParam.series" clearable placeholder="选择系列">
+            <el-option v-for="item in series" :key="item.id" :label="item.series_name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="文章描述">
@@ -51,15 +81,14 @@ function cancelClick() {
         </el-form-item>
         <el-form-item label="文章封面">
           <div class="uploader">
-            <Upload />
+            <Upload @setImage="setImage" />
           </div>
         </el-form-item>
       </el-form>
     </template>
     <template #footer>
       <div style="flex: auto">
-        <el-button @click="cancelClick">cancel</el-button>
-        <el-button type="primary" @click="confirmClick">confirm</el-button>
+        <el-button type="primary" size="large" @click="confirmClick">发布</el-button>
       </div>
     </template>
   </el-drawer>

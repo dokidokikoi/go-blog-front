@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home/index.vue";
+import { ElMessage } from 'element-plus'
+import { getItem } from "../utlis/localStorage";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -125,6 +127,28 @@ router.beforeEach((to, from, next) => {
   document.documentElement.scrollTop = 0;
   window.pageYOffset = 0;
   next();
+})
+
+router.beforeEach((to, from, next) => {
+  const patt = /\/admin\/*/
+  if (to.name === 'login') {
+    next()
+  } else if (patt.test(to.fullPath) && !getItem("token")) {
+    ElMessage.info('请登录')
+    next({ path: '/login', query: { redirect: to.fullPath } })
+  } else {
+    next()
+  }
+  next()
+})
+
+router.afterEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = to.meta.title
+  }
+  const body = document.querySelector('.el-main')
+  if (body) body.scrollTop = 0
+  // nprogress.done()
 })
 
 export default router;

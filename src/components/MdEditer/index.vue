@@ -2,7 +2,7 @@
   <v-md-editor 
   :disabled-menus="[]" 
   v-model="text" 
-  height="520px" 
+  height="530px" 
   @upload-image="handleUploadImage"
   @save="saveText"
   @image-click="imageFocus"
@@ -20,6 +20,7 @@
 
 <script setup>
 import { ref } from "vue"
+import { setItem, getItem } from "../../utlis/localStorage";
 
 let text = ref(
 '## test \n' +
@@ -49,8 +50,8 @@ function handleUploadImage(event, insertImage, files) {
 }
 
 function saveText() {
-  localStorage.setItem('edit', text.value)
-  console.log(localStorage.getItem('edit'))
+  setItem('edit', text.value)
+  console.log(getItem('edit'))
 }
 
 function imageFocus(images, currentIndex) {
@@ -59,6 +60,10 @@ function imageFocus(images, currentIndex) {
   dialogImages.value = images
   dialogImageIndex = currentIndex
 }
+
+setInterval(()=>{
+  saveText()
+}, 10000)
 </script>
 
 
