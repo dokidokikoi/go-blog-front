@@ -23,7 +23,7 @@ export const deleteTag = (ids) => request({
     data: {ids: ids}
 })
 
-export const createTag = (ids) => request({
+export const createTag = (data) => request({
     method: 'POST',
     url: '/tags',
     data

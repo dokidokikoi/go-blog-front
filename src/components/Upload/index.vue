@@ -1,9 +1,8 @@
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import { getTimeStamp } from "../../utlis/time"
-import { stringToUtf8ByteArray } from "../../utlis/utf8"
 import { policy } from "../../api/oss"
 import axios from "axios"
 
@@ -21,20 +20,20 @@ const dataObj = {
   // callback:'',
 }
 
-// const props = defineProps({
-//   img: {
-//     type: String,
-//     default: ''
-//   }
-// })
+const props = defineProps({
+  img: {
+    type: String,
+    default: ''
+  }
+})
 
-// watch(
-//   () => props.img,
-//   (newProps) => {
-//     imageUrl.value = newProps
-//     console.log(imageUrl.value)
-//   }, { immediate: true }
-// )
+watch(
+  () => props.img,
+  (newProps) => {
+    imageUrl.value = newProps
+    console.log(imageUrl.value)
+  }, { immediate: true }
+)
 
 
 const  beforeAvatarUpload = async (rawFile) => {
@@ -56,10 +55,7 @@ const  beforeAvatarUpload = async (rawFile) => {
       // console.log('响应的数据222。。。', dataObj)
       resolve(true)
       // reject(true)
-    }).catch(err => [
-      console.log(err)
-      // reject(false)
-    ])
+    })
   })
 }
 

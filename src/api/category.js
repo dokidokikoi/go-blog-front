@@ -23,7 +23,7 @@ export const deleteCategory = (ids) => request({
     data: {ids: ids}
 })
 
-export const createCategory = (ids) => request({
+export const createCategory = (data) => request({
     method: 'POST',
     url: '/categories',
     data

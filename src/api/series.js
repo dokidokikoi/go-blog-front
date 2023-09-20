@@ -23,7 +23,7 @@ export const deleteSeries = (ids) => request({
     data: {ids: ids}
 })
 
-export const createSeries = (ids) => request({
+export const createSeries = (data) => request({
     method: 'POST',
     url: '/series',
     data

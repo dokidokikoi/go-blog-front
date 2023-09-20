@@ -23,7 +23,7 @@ export const deleteArticle = (ids) => request({
     data: {ids: ids}
 })
 
-export const createArticle = (ids) => request({
+export const createArticle = (data) => request({
     method: 'POST',
     url: '/articles',
     data

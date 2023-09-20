@@ -10,7 +10,7 @@ import { RouterView } from 'vue-router';
       <el-aside width="200px"><Nav /></el-aside>
       <el-container>
         <el-header><Header /></el-header>
-        <el-main><RouterView /></el-main>
+        <el-main><RouterView :key="new Date().getTime()" /></el-main>
       </el-container>
     </el-container>
   </div>
