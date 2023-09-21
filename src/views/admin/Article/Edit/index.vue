@@ -8,9 +8,9 @@ import { listSeries } from "@/api/series"
 import { createArticle, getArticle, updateArticle } from "@/api/article"
 import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
-import Category from "./Category.vue";
-import Series from "./Series.vue";
-import Tag from "./Tag.vue";
+import Category from "../../Category/Upsert.vue";
+import Series from "../../Series/Upsert.vue";
+import Tag from "../../Tag/Upsert.vue";
 import { useRoute, useRouter } from "vue-router";
 
 const route = useRoute()
@@ -23,7 +23,7 @@ const showSaveArticle = ref(false)
 const articleParam = ref({
   id: 0,
   tags: [],
-  article_body: "hi",
+  article_body: "",
   cover: ""
 })
 const categories = ref([
@@ -106,7 +106,6 @@ async function confirmClick(formEl) {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(articleParam.value)
       createArticle(articleParam.value).then(res => {
         if (res.data.id === 0) {
           ElMessage.error('发布失败')
@@ -125,7 +124,6 @@ async function confirmUpdateClick(formEl) {
   if (!formEl) return
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log(articleParam.value)
       updateArticle(articleParam.value).then(res => {
         ElMessage.success('更新成功')
       })
@@ -140,8 +138,6 @@ getTagList()
 
 if (route.params.id) {
   getArticleWithBody(route.params.id)
-  articleParam.value.article_body = "hello world!!!"
-  articleParam.value.cover = "https://harukaze-blog.oss-cn-shenzhen.aliyuncs.com/2022-09-19/e39cbfdf-7f26-462f-8739-d263495ce33e_wallhaven-o3km89.png"
 }
 </script>
 

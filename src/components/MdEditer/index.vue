@@ -40,12 +40,12 @@ const props = defineProps({
 })
 
 const text = ref(
-'## test \n' +
-'```go \n' +
-'fmt.Println("test") \n' + 
-'```\n' +
-'![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png)\n' +
-'![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png)'
+// '## test \n' +
+// '```go \n' +
+// 'fmt.Println("test") \n' + 
+// '```\n' +
+// '![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png)\n' +
+// '![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png)'
 )
 
 watch(

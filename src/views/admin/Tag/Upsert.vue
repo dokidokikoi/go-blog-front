@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from "vue"
-import { createTag } from "@/api/tag"
+import { createTag, updateTag } from "@/api/tag"
 import { ElMessage } from 'element-plus'
 
 const visible = ref(false)
@@ -9,6 +9,18 @@ const props = defineProps({
   tagDialogFormVisible: {
     type: Boolean,
     default: false
+  },
+  op: {
+    type: String,
+    default: "create"
+  },
+  ty: {
+    type: Number,
+    default: 1
+  },
+  data: {
+    type: Object,
+    default: {}
   }
 })
 
@@ -21,6 +33,12 @@ watch(
   }, { immediate: true }
 )
 const tagForm = ref({})
+watch(
+  () => props.data,
+  (newProps) => {
+    tagForm.value = newProps
+  }, { immediate: true }
+)
 const rules = ref({
   tag_name: [
     { required: true, message: '请填写标签名', trigger: 'blur' },
@@ -33,12 +51,20 @@ async function submit() {
   if (!formRef) return
   await formRef.value.validate((valid, fields) => {
     if (valid) {
-      tagForm.value.type = 1
-      createTag(tagForm.value).then(res => {
-        ElMessage.success("添加成功")
-        emit('refresh')
-        emit('setTagDialogFormVisible', false)
-      })
+      tagForm.value.type = props.ty
+      if (props.op === "create") {
+        createTag(tagForm.value).then(res => {
+          ElMessage.success("添加成功")
+          emit('refresh')
+          emit('setTagDialogFormVisible', false)
+        })
+      } else {
+        updateTag(tagForm.value).then(res => {
+          ElMessage.success("更新成功")
+          emit('refresh')
+          emit('setTagDialogFormVisible', false)
+        })
+      }
     } else {
       ElMessage.error('请将参数填写完整')
     }
@@ -47,7 +73,7 @@ async function submit() {
 </script>
 
 <template>
-  <el-dialog v-model="visible" title="新增系列" @close="emit('setTagDialogFormVisible', false)">
+  <el-dialog v-model="visible" :title="op=='create'? '新增标签':'修改标签'" @close="emit('setTagDialogFormVisible', false)">
     <el-form :model="tagForm" ref="formRef" :rules="rules">
       <el-form-item label="标签名" prop="tag_name" label-width="80px">
         <el-input v-model="tagForm.tag_name" clearable />

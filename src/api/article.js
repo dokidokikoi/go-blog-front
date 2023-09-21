@@ -1,9 +1,10 @@
 import request from "../utlis/request"
 
-export const listArticle = (data) => request({
+export const listArticle = (data, params) => request({
     method: 'POST',
-    url: '/articles/list',
-    data
+    url: `/articles/list`,
+    data,
+    params
 })
 
 export const getArticle = (id) => request({

@@ -1,33 +1,102 @@
 <script setup>
 import { ref } from "vue"
 import { Plus, Edit, Delete  } from '@element-plus/icons-vue'
+import Upsert from "./Upsert.vue"
+import { listCategory, deleteCategory } from "@/api/category"
+import { ElMessage, ElMessageBox } from 'element-plus'
 
-const tableData = ref([
-  {
-    id: 1,
-    name: "技术文章",
-    type: "文章"
-  }
+const typeList = ref([
+  "unknow", "文章", "网站"
 ])
+const tableData = ref([
+])
+const typeParam = ref(1)
+const typeData = ref([
+  {
+    label: "文章",
+    value: 1,
+  },
+  {
+    label: "网站",
+    value: 2,
+  },
+])
+const op = ref("")
+const categoryParam = ref({})
 const dialogFormVisible = ref(false)
-const categoryFrom = ref({})
-
-function showDialog() {
-  dialogFormVisible.value = true
+function getCategoryList() {
+  listCategory({type: typeParam.value}).then(res => {
+    tableData.value = res.data.list
+  })
 }
+function setDialogFormVisible(bool) {
+  dialogFormVisible.value = bool
+}
+
+function typeChange() {
+  getCategoryList()
+}
+
+function editCategory(data) {
+  op.value = "update"
+  categoryParam.value = data
+  setDialogFormVisible(true)
+}
+
+function createCategory() {
+  op.value = "create"
+  categoryParam.value = {}
+  setDialogFormVisible(true)
+}
+
+function delCategory(id) {
+  ElMessageBox.confirm(
+    '是否删除分类？',
+    'Warning',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      deleteCategory([id]).then(res => {
+        ElMessage.success('删除成功')
+        getCategoryList()
+      })
+    })
+    .catch(() => {
+    })
+}
+
+getCategoryList()
 </script>
 
 <template>
-  <el-button type="primary" @click="showDialog" :icon="Plus" />
-  <el-table :data="tableData" stripe style="width: 100%">
-    <el-table-column prop="id" label="ID" />
-    <el-table-column prop="name" label="分类名" />
-    <el-table-column prop="type" label="分类类型" />
-    <el-table-column prop="action" label="操作">
-      <template #default="props" style="padding: 10px, 0;">
+  <el-button type="primary" @click="createCategory" :icon="Plus" />
+  <el-select v-model="typeParam" style="margin-left: 20px;" @change="typeChange" clearable placeholder="请选择类型">
+    <el-option
+      v-for="item in typeData"
+      :key="item.label"
+      :label="item.label"
+      :value="item.value"
+    />
+  </el-select>
+  <el-table :data="tableData" stripe style="width: 100%;margin-top: 20px;">
+    <el-table-column prop="id" label="ID" width="60"/>
+    <el-table-column prop="category_name" label="分类名" />
+    <el-table-column prop="summary" label="分类介绍" />
+    <el-table-column prop="type" label="分类类型"  width="110">
+      <template #default="{row}" style="padding: 10px, 0;">
+        {{ typeList[row.type] }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="action" label="操作" width="110">
+      <template #default="{row}" style="padding: 10px, 0;">
         <el-button
           type="primary"
           size="small"
+          @click="editCategory(row)"
         >
           <el-icon><Edit /></el-icon>
         </el-button>
@@ -35,33 +104,21 @@ function showDialog() {
           type="danger"
           size="small"
           style="margin-left: 6px;"
+          @click="delCategory(row.id)"
         >
           <el-icon><Delete /></el-icon>
         </el-button>
       </template>
     </el-table-column>
   </el-table>
-  <el-dialog v-model="dialogFormVisible" title="添加分类">
-    <el-form :model="categoryFrom" label-width="80px">
-      <el-form-item label="分类名">
-        <el-input v-model="categoryFrom.name" placeholder="分类名" />
-      </el-form-item>
-      <el-form-item label="分类类别" :label-width="formLabelWidth">
-        <el-select v-model="categoryFrom.type" placeholder="分类类别">
-          <el-option label="文章" value="文章" />
-          <el-option label="网站" value="网站" />
-        </el-select>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">
-          Confirm
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
+  
+  <Upsert 
+  :op="op"
+  :ty="typeParam"
+  :data="categoryParam"
+  :category-dialog-form-visible="dialogFormVisible" 
+  @setCategoryDialogFormVisible="setDialogFormVisible"
+  @refresh="getCategoryList" />
 </template>
 
 <style scoped>

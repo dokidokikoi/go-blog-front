@@ -23,7 +23,7 @@ const deleteComment = (ids) => request({
     data: {ids: ids}
 })
 
-const createComment = (ids) => request({
+const createComment = (data) => request({
     method: 'POST',
     url: '/comments',
     data
