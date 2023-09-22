@@ -18,12 +18,12 @@
     </el-form-item>
     <el-form-item
       label="昵称"
-      prop="author.name"
+      prop="nickname"
       style="width: 45%"
     >
       <el-input
         placeholder="姓名或昵称"
-        v-model="commentParam.author.name"
+        v-model="commentParam.nickname"
       />
     </el-form-item>
     <el-form-item>
@@ -41,52 +41,43 @@
 </template>
 
 <script setup>
+import { ElMessage } from 'element-plus'
 import { reactive, ref } from 'vue'
+import { createComment } from '@/api/comment'
 
 const props = defineProps({
   parentId: {
-    type: String,
-    default: ''
+    type: Number,
+    default: 0
   },
   articleId: {
-    type: String,
-    default: ''
+    type: Number,
+    default: 0
   },
   toUserName: {
     type: String,
     default: ''
   },
-  toUseId: {
-    type: String,
-    default: ''
-  },
-  loadList: {
-    default: () => {}
-  },
+  // loadList: {
+  //   default: () => {}
+  // },
   cancel: {
     default: () => {}
   }
 })
-
+const emit = defineEmits()
 const commentParam = reactive({
   content: '',
-  articleId: '',
-  author: {
-    id: '',
-    name: ''
-  },
-  parentId: '',
-  toUser: {
-    id: '',
-    name: ''
-  }
+  article_id: 0,
+  nickname: '',
+  pid: 0,
+  to_nickname: ''
 })
 
 const init = () => {
-  commentParam.parentId = props.parentId
-  commentParam.articleId = props.articleId
-  commentParam.toUser.name = props.toUserName
-  commentParam.toUser.id = props.toUseId ? props.toUseId : ''
+  commentParam.pid = props.parentId
+  commentParam.article_id = props.articleId
+  commentParam.to_nickname = props.toUserName
 }
 init()
 
@@ -94,7 +85,7 @@ const rules = reactive({
   content: [
     { required: true, message: '居然什么都不写...', trigger: 'blur' }
   ],
-  'author.name': [
+  nickname: [
     { required: true, message: '无名氏吗...', trigger: 'blur' }
   ]
 })
@@ -102,24 +93,26 @@ const rules = reactive({
 const isLoad = ref(false)
 const commentForm = ref(null)
 const recover = async () => {
-  // isLoad.value = true
-  // // 表单验证
-  // const valid = await commentForm.value?.validate()
-  // if (!valid) {
-  //   return false
-  // }
+  isLoad.value = true
+  // 表单验证
+  const valid = await commentForm.value?.validate()
+  if (!valid) {
+    return false
+  }
 
-  // const data = await commentApi.postComment(commentParam).finally(() => {
-  //   isLoad.value = false
-  // })
+  const data = await createComment(commentParam).finally(() => {
+    isLoad.value = false
+  })
 
-  // if (data.code === 200) {
-  //   ElMessage.success('发布成功')
-  //   commentParam.content = ''
-  //   commentParam.author.name = ''
-  //   props.cancel()
-  //   props.loadList()
-  // }
+  if (data.code === 0) {
+    ElMessage.success('发布成功')
+    commentParam.content = ''
+    commentParam.nickname = ''
+    // props.cancel()
+    // props.loadList()
+    emit("loadList")
+    emit("cancel")
+  }
 }
 
 </script>

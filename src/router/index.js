@@ -199,7 +199,7 @@ router.beforeEach((to, from, next) => {
   if (to.name === 'login') {
     next()
   } else if (patt.test(to.fullPath) && !getItem("token")) {
-    ElMessage.info('请登录')
+    ElMessage.error('请登录')
     next({ path: '/login', query: { redirect: to.fullPath } })
   } else {
     next()

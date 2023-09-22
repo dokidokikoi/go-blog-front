@@ -4,9 +4,11 @@ import { getCaptcha, login } from '@/api/user'
 import { setItem } from "@/utlis/localStorage"
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router';
+import { useUserStore } from '@/stores/user'
 
 const router = useRouter()
 const route = useRoute()
+const userStore = useUserStore()
 
 const loginParam = ref({
   email: "",
@@ -24,6 +26,7 @@ function userLogin() {
       return
     }
     setItem("token", res.data.token)
+    userStore.setUser(res.data.user_info)
     // 跳转回原来页面
     let redirect = route.query.redirect
     if (typeof redirect !== 'string') {

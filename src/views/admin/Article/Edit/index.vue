@@ -146,7 +146,7 @@ if (route.params.id) {
     <el-button v-if="!route.params.id" type="primary" size="large" @click="showDrawer()" round style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">发布文章</el-button>
     <el-button v-else type="primary" size="large" @click="showDrawer()" round style="box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);">更新文章</el-button>
   </div>
-  <MdEditer :body="articleParam.article_body" @text-change="textChange" />
+  <MdEditer :store-key="route.params.id?'edit':'write'" :body="articleParam.article_body" @text-change="textChange" />
   <el-drawer v-model="showSaveArticle" size="40%" direction="rtl">
     <template #header>
       <h4>文章信息</h4>

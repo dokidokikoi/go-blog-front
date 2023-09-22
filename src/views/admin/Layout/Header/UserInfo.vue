@@ -1,11 +1,11 @@
 <template>
   <el-dropdown>
     <span class="el-dropdown-link">
-      <!-- {{ $store.state.user?.user_info.nickname }} -->
+      <!-- {{ userStore.user.nick_name }} -->
       <el-avatar
         shape="square"
         :size="35"
-        src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"
+        :src="userStore.user.avatar"
       />
       <!-- <el-icon><CaretBottom /></el-icon> -->
     </span>
@@ -24,39 +24,43 @@
 import { ElMessage, ElMessageBox } from 'element-plus'
 import {CaretBottom} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
+import {logout} from '@/api/user'
+import { useUserStore } from '@/stores/user'
+import { removeItem } from '@/utlis/localStorage'
 
 const router = useRouter()
-// const store = useStore()
+const userStore = useUserStore()
 
-// const handleLogout = () => {
-//   // 退出提示
-//   ElMessageBox.confirm('确认退出吗？', '退出提示', {
-//     confirmButtonText: '确定',
-//     cancelButtonText: '取消',
-//     type: 'warning'
-//   }).then(async () => {
+const handleLogout = () => {
+  // 退出提示
+  ElMessageBox.confirm('确认退出吗？', '退出提示', {
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  }).then(async () => {
     // 确认发出退出请求
-  //   await logout()
+    await logout()
 
-  //   // 清除用户登录信息
-  //   store.commit('setUser', null)
+    // 清除用户登录信息
+    userStore.setUser({})
+    removeItem("token")
 
-  //   ElMessage({
-  //     type: 'success',
-  //     message: '退出成功!'
-  //   })
+    ElMessage({
+      type: 'success',
+      message: '退出成功!'
+    })
 
-  //   // 跳转到登录页
-  //   router.push({
-  //     name: 'login'
-  //   })
-  // }).catch(() => {
-  //   ElMessage({
-  //     type: 'info',
-  //     message: '已取消退出'
-  //   })
-  // })
-// }
+    // 跳转到登录页
+    router.push({
+      name: 'login'
+    })
+  }).catch(() => {
+    ElMessage({
+      type: 'info',
+      message: '已取消退出'
+    })
+  })
+}
 
 function toProfilePage() {
   router.push("/admin/profile")

@@ -34,11 +34,10 @@ export const getCaptcha = () => request({
     url: "/users/captcha"
 })
 
-// const deleteUser = (ids) => request({
-//     method: 'DELETE',
-//     url: '/users',
-//     data: {ids: ids}
-// })
+export const logout = () => request({
+    method: 'POST',
+    url: '/users/logout',
+})
 
 // const createUser = (ids) => request({
 //     method: 'POST',

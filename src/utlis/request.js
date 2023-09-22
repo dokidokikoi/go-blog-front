@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { getItem } from './localStorage'
 import { ElMessage } from 'element-plus'
+import router from "@/router/"
 
 const request = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL
@@ -25,6 +26,16 @@ request.interceptors.request.use(function (config) {
 // 响应拦截器
 request.interceptors.response.use(function (response) {
     // 统一处理接口响应数据，比如 token 过期无效、服务端异常等
+    if (response.data.code === 10201 || response.data.code === 10202 || response.data.code === 10203 || response.data.code === 10001) {
+      router.push({
+        name: 'login',
+        query: {
+          redirect: router.currentRoute.value.fullPath
+        }
+      })
+      ElMessage.error("请登录")
+      return Promise.reject(response)
+    }
     if (response.status !== 200) {
       console.log(response.status)
       ElMessage.error(response.data.msg)
@@ -41,6 +52,17 @@ request.interceptors.response.use(function (response) {
     // 手动返回一个 Promise 异常
     return Promise.reject(response.data)
   }, function (error) {
+    console.log(router)
+    const response = error.response
+    if (response.data.code === 10201 || response.data.code === 10202 || response.data.code === 10203 || response.data.code === 10001) {
+      router.push({
+        name: 'login',
+        query: {
+          redirect: router.currentRoute.value.fullPath
+        }
+      })
+      ElMessage.error("请登录")
+    }
     return Promise.reject(error)
   })
 

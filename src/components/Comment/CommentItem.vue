@@ -1,21 +1,58 @@
 <template>
-  <li v-if="!(!/\/admin\/*/.test($route.fullPath) && comment.state !== 0)">
+  <li>
     <div style="margin-bottom: 20px;">
       <el-avatar
-        :src="comment.author.avatar? comment.author.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
+        :src="comment.avatar? comment.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
       />
       <div class="info">
+        <div class="top">
+          <el-tooltip
+                effect="dark"
+                content="置顶评论"
+                placement="bottom-start"
+                style="margin: 10px;"
+                v-if="comment.weight < 2"
+              >
+                  <el-button
+                    type="info"
+                    size="small"
+                    @click="setTop()"
+                  >
+                    <el-icon><Star /></el-icon>
+                  </el-button>
+              </el-tooltip>
+              <el-tooltip
+                effect="dark"
+                content="取消置顶"
+                placement="bottom-start"
+                style="margin: 10px;"
+                v-else
+              >
+                <el-badge
+                  is-dot
+                  style="z-index: 100;"
+                >
+                  <el-button
+                    type="info"
+                    size="small"
+                    @click="setTop()"
+                  >
+                    <el-icon><Star /></el-icon>
+                  </el-button>
+                </el-badge>
+              </el-tooltip>
+        </div>
         <p class="name">
-          {{ comment.author.nickname }}
+          {{ comment.nickname }}
         </p>
         <p class="date">
-          <!-- {{ formatDate(comment.createDate) }} -->
+          {{ formatTime(comment.created_at) }}
         </p>
         <p class="content">
           <span
-            v-if="comment.toUserNickname"
+            v-if="comment.to_nickname!==''"
             class="callName"
-          >@{{ comment.toUserNickname }}</span>{{ comment.content }}
+          >@{{ comment.to_nickname }}</span>{{ comment.content }}
         </p>
         <el-button
           type="primary"
@@ -30,11 +67,11 @@
           v-if="/\/admin\/*/.test($route.fullPath)"
           type="danger"
           class="btn right"
-          @click="deleteComment"
+          @click="delComment"
         >
           删除
         </el-button>
-        <el-button
+        <!-- <el-button
           v-show="comment.state===1"
           v-if="/\/admin\/*/.test($route.fullPath)"
           type="success"
@@ -42,7 +79,7 @@
           @click="deleteComment"
         >
           恢复
-        </el-button>
+        </el-button> -->
         <slot name="recover" />
       </div>
     </div>
@@ -50,9 +87,12 @@
   </li>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { ElMessage } from 'element-plus'
-
+import { formatTime } from '../../utlis/time'
+import {deleteComment} from "../../api/comment"
+import { Star } from '@element-plus/icons-vue'
+ 
 const props = defineProps({
   comment: {
     type: Object,
@@ -62,28 +102,28 @@ const props = defineProps({
   recover: {
     default: () => {}
   },
-  loadList: {
-    default: () => {}
-  }
+  // loadList: {
+  //   default: () => {}
+  // }
 })
 
-interface EmitsType {
-  (e: 'showPub', id: string): void
-}
-const emit = defineEmits<EmitsType>()
+const emit = defineEmits()
 const recover = () => {
   emit('showPub', props.comment.id)
 }
 
-const deleteComment = async () => {
-  // const data = await commentApi.setCommentState({ id: props.comment.id, flag: props.comment.state !== 0 })
+const delComment = async () => {
+  const data = await deleteComment(props.comment.id)
 
-  // if (data.code === 200) {
-  //   ElMessage.success('修改成功')
-  //   props.loadList()
-  // }
+  if (data.code === 0) {
+    ElMessage.success('修改成功')
+    emit("loadList")
+    // props.loadList()
+  }
 }
-
+function setTop() {
+  emit("setWeight", props.comment.id, 3 - props.comment.weight)
+}
 </script>
 
 <style scoped>
@@ -108,12 +148,16 @@ const deleteComment = async () => {
       clear: both;
     }
   }
-
   .info {
     margin-left: 50px;
     padding-bottom: 10px;
+    position: relative;
   }
-
+.top {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
   .name, .date {
     margin: 0;
     padding: 0;

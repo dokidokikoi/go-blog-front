@@ -33,7 +33,7 @@ const props = defineProps({
     type: String,
     default: ''
   },
-  key: {
+  storeKey: {
     type: String,
     default: 'edit'
   }
@@ -100,8 +100,8 @@ function updateValue(h, t) {
 }
 
 function saveText() {
-  setItem(props.key, text.value)
-  console.log(getItem(props.key))
+  setItem(props.storeKey, text.value)
+  ElMessage.success("已保存")
 }
 
 function imageFocus(images, currentIndex) {

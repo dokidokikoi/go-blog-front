@@ -55,11 +55,12 @@
       <el-table :data="tableData" stripe style="width: 100%">
         <el-table-column type="expand" fixed>
           <template #default="{row}">
-            <p style="margin-left: 40px;font-weight: 500;">
+            <p style="margin-left: 40px;font-weight: 500;margin-bottom: 20px;">
               文章介绍:
               <br>
               <p style="margin-left: 20px;"> {{ row.summary }} </p>
             </p>
+            <Comment :articleId="row.id" />
           </template>
         </el-table-column>
         <el-table-column prop="title" fixed label="标题" width="180" />
@@ -173,6 +174,7 @@ import { listTag } from "@/api/tag"
 import { listSeries } from "@/api/series"
 import { formatTime } from "@/utlis/time"
 import { ElMessage, ElMessageBox } from 'element-plus'
+import Comment from "@/components/Comment/index.vue"
 
 const totalCount = ref(0)
 const searchParams = ref({
@@ -182,7 +184,7 @@ const searchParams = ref({
 const pagination = ref({
   page: 1,
   page_size: 10,
-  order_by: "weight desc"
+  order_by: "weight desc, id asc",
 })
 const categories = ref([
 ])
