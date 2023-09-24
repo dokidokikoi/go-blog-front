@@ -8,7 +8,9 @@ import { listCategory } from "@/api/category"
 import { listTag } from "@/api/tag"
 import { listSeries } from "@/api/series"
 import { listArticle } from "@/api/article"
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const host = ref({})
 const categories = ref([
 ])
@@ -36,6 +38,15 @@ function getSeriesList() {
 function getTagList() {
   listTag({type: 1}).then(res => {
     tags.value = res.data.list
+  })
+}
+
+function to(id, type) {
+  router.push({
+    path: `/group/${id}`,
+    query: {
+      type: type
+    }
   })
 }
 
@@ -77,13 +88,13 @@ search()
   <div class="all-tags">
     <div class="label">标签</div>
     <div class="content">
-      <a class="tag" v-for="tag in tags">#{{ tag.tag_name }}</a>
+      <a class="tag" @click="to(tag.id, 'tag')" v-for="tag in tags">#{{ tag.tag_name }}</a>
     </div>
   </div>
   <div class="all-tags" style="margin-top: 20px;">
     <div class="label">系列</div>
     <div class="content">
-      <a class="tag" v-for="s in series">#{{ s.series_name }}</a>
+      <a class="tag" @click="to(s.id, 'series')" v-for="s in series">#{{ s.series_name }}</a>
     </div>
   </div>
 </div>

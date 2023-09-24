@@ -20,6 +20,7 @@ const { loading } = storeToRefs(globalStore)
 loading.value = false
 
 const route = useRoute()
+const router = useRouter()
 const article = ref({})
 const host = ref({})
 
@@ -31,6 +32,15 @@ function getArticleWithBody(id) {
     ElMessage.error('获取文章失败')
   }).finally(() => {
     loading.value = false
+  })
+}
+
+function to(id, type) {
+  router.push({
+    path: `/group/${id}`,
+    query: {
+      type: type
+    }
   })
 }
 
@@ -47,9 +57,9 @@ host.value = getItem("host")
         <div style="display: flex;">
           <span style="display: flex;align-items: center;"><Clock fill="#e6e6e6"/> <span>{{ formatTime(article.created_at) }}</span></span>
           <span class="dot">·</span>
-          <span style="display: flex;align-items: center;"><Category fill="#e6e6e6" width="18" height="18"/> <span>{{ article.category.category_name }}</span></span>
+          <span style="display: flex;align-items: center;" class="category" @click="to(article.category.id, 'category')"><Category fill="#e6e6e6" width="18" height="18"/> <span>{{ article.category.category_name }}</span></span>
           <span class="dot">·</span>
-          <span v-for="tag in article.tags" style="margin-right:10px;display: flex;align-items: center;">
+          <span v-for="tag in article.tags" @click="to(tag.id, 'tag')" class="tag" style="margin-right:10px;display: flex;align-items: center;">
             <Tag fill="#e6e6e6" />
             <span>{{ tag.tag_name }}</span>
           </span>
@@ -175,5 +185,13 @@ host.value = getItem("host")
 }
 .wraning span {
   font-weight: 600;
+}
+.category:hover {
+  cursor: pointer;
+  color: chocolate;
+}
+.tag:hover {
+  cursor: pointer;
+  color: chocolate;
 }
 </style>

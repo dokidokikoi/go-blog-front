@@ -8,7 +8,7 @@ import { RouterView } from "vue-router";
   <div class="common-layout">
     <el-container>
       <el-header class="header"><Header /></el-header>
-      <el-main class="main"><RouterView /></el-main>
+      <el-main class="main"><RouterView :key="new Date().getTime()" /></el-main>
       <el-footer><Footer /></el-footer>
     </el-container>
   </div>

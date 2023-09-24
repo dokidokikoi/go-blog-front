@@ -60,7 +60,6 @@ function showUpdateSite(data) {
   siteForm.value.tags = siteForm.value.tags.map(e => {
     return e.id
   })
-  console.log(siteForm.value.id)
   dialogFormVisible.value = true
 }
 

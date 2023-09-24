@@ -53,7 +53,6 @@ ul {
   padding: 0;
   margin: 0;
 }
-
 .menu {
   width: 100%;
   height: 60px;
@@ -83,15 +82,12 @@ ul {
   align-items: center;
   transition-duration: .3s;
 }
-
 .menu-item:hover {
   background-color:cyan;
 }
-
 .menu-icon {
   margin-right: 7px;
 }
-
 .title.menu-item {
   width: 150px;
   font-size: 28px;
@@ -102,10 +98,8 @@ ul {
 .title.menu-item:hover {
   background: rgba(67, 237, 237, 1);
 }
-
 .last {
   float: right;
-  width: 450px;
   height: 100%;
   /* background: #fff; */
   text-align: center;
@@ -114,11 +108,12 @@ ul {
   font-size: 20px;
   font-weight: 400;
 }
-
 .last-item {
   float: right;
   height: 100%;
   /* background: #ccc; */
   margin-left: 20px;
+  display: flex;
+  align-items: center;
 }
 </style>

@@ -1,14 +1,9 @@
 <script setup>
-import { ElNotification as notify } from 'element-plus'
 import UserInfo from "./UserInfo.vue"
-import {CaretBottom} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import { onMounted } from 'vue';
 
 const router = useRouter()
-onMounted(() => {
-  console.log(router.currentRoute.value.name)
-})
 </script>
 
 <template>

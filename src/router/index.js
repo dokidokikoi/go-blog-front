@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home/index.vue";
 import { ElMessage } from 'element-plus'
 import { getItem, setItem } from "../utlis/localStorage";
-import { getUser } from "@/api/user"
+import { getHost } from "@/api/user"
 import { useGlobalStore } from '@/stores/global'
 import { storeToRefs } from 'pinia'
 
@@ -37,6 +37,14 @@ const router = createRouter({
             title: ""
           },
           component: () => import("../views/Article/index.vue"),
+        },
+        {
+          path: "/group/:id",
+          name: "group",
+          meta: {
+            title: "分类"
+          },
+          component: () => import("../views/Group/index.vue"),
         },
         {
           path: "/archives",
@@ -208,12 +216,12 @@ router.beforeEach((to, from, next) => {
   loading.value = true
 
   let host = getItem("host")
-  if (!host) {
-    getUser(1).then(res => {
+  if (!host || host.expire && host.expire < new Date().getTime()) {
+    getHost().then(res => {
       if (res.data.id !== 1) {
         return 
       }
-      setItem("host", res.data)
+      setItem("host", {...res.data,expire: new Date().getTime()+1000*60*60*24})
     })
   }
 

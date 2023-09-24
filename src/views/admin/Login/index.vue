@@ -5,10 +5,14 @@ import { setItem } from "@/utlis/localStorage"
 import { ElMessage } from 'element-plus'
 import { useRouter, useRoute } from 'vue-router';
 import { useUserStore } from '@/stores/user'
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const route = useRoute()
 const userStore = useUserStore()
+const globalStore = useGlobalStore()
+const { loading } = storeToRefs(globalStore)
 
 const loginParam = ref({
   email: "",
@@ -49,6 +53,7 @@ function captcha() {
 onMounted(() => {
   captcha()
 })
+loading.value = false
 </script>
 
 <template>

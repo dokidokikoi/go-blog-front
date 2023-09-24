@@ -11,6 +11,11 @@ export const getUser = (id) => request({
     url: '/users/'+id,
 })
 
+export const getHost = (id) => request({
+    method: 'GET',
+    url: '/users/host',
+})
+
 export const updateUser = (data) => request({
     method: 'PATCH',
     url: '/users',

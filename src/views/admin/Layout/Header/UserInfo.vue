@@ -22,7 +22,6 @@
 
 <script setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
-import {CaretBottom} from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router';
 import {logout} from '@/api/user'
 import { useUserStore } from '@/stores/user'
@@ -65,6 +64,8 @@ const handleLogout = () => {
 function toProfilePage() {
   router.push("/admin/profile")
 }
+
+console.log(userStore.user)
 </script>
 
 <style scoped>

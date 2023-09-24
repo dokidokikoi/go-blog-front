@@ -11,10 +11,12 @@ import Eye from '@/components/icons/Eye.vue'
 import { formatDay } from '../../utlis/time';
 import { useGlobalStore } from '@/stores/global'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router';
 
 const globalStore = useGlobalStore()
 const { loading } = storeToRefs(globalStore)
 
+const router = useRouter()
 const pageLoading = ref(false);
 const articles = ref([])
 const totalCount = ref(0)
@@ -36,6 +38,16 @@ function loadArticle() {
     pageLoading.value = false
   })
 }
+
+function to(id, type) {
+  router.push({
+    path: `/group/${id}`,
+    query: {
+      type: type
+    }
+  })
+}
+
 loadArticle()
 </script>
 
@@ -58,9 +70,9 @@ loadArticle()
         <p class="description">{{ item.summary }}</p>
         <br>
         <div class="info-footer">
-          <div class="category"> <Category width="18" height="18"/> <span>{{ item.category.category_name }}</span></div>
+          <div class="category" @click="to(item.category.id, 'category')"> <Category width="18" height="18"/> <span>{{ item.category.category_name }}</span></div>
           <div class="tags">
-            <span class="tag" v-for="tag in item.tags"> 
+            <span class="tag" @click="to(tag.id, 'tag')" v-for="tag in item.tags"> 
               <Tag width="12" height="12" />
               <span>{{tag.tag_name}}</span>
             </span>
@@ -173,6 +185,10 @@ loadArticle()
   display: flex;
   align-items: center;
 }
+.category:hover {
+  cursor: pointer;
+  color: chocolate;
+}
 .tags {
   right: 20px;
   margin-left: 10px;
@@ -182,6 +198,10 @@ loadArticle()
   margin-left: 5px;
   display: flex;
   align-items: center;
+}
+.tag:hover {
+  cursor: pointer;
+  color: chocolate;
 }
 .previous {
   margin-top: 30px;

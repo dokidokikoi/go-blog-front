@@ -4,9 +4,17 @@ import Header from './Header/index.vue'
 import { RouterView } from 'vue-router';
 import { useGlobalStore } from '@/stores/global'
 import { storeToRefs } from 'pinia'
+import { useRoute } from 'vue-router';
+import { watch } from 'vue'
+
+const route = useRoute()
 
 const globalStore = useGlobalStore()
 const { loading } = storeToRefs(globalStore)
+
+watch(route, async (newQuestion, oldQuestion) => {
+  loading.value = false
+})
 loading.value = false
 </script>
 

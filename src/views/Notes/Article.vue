@@ -5,7 +5,9 @@ import Tag from '@/components/icons/Tag.vue'
 import { formatDay } from '../../utlis/time';
 import Comment from '@/components/icons/Comment.vue'
 import Eye from '@/components/icons/Eye.vue'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
 const props = defineProps({
   articles: {
     type: Array,
@@ -24,6 +26,15 @@ const emit = defineEmits()
 
 function currentChange(curr) {
   emit('currentChange', curr)
+}
+
+function to(id, type) {
+  router.push({
+    path: `/group/${id}`,
+    query: {
+      type: type
+    }
+  })
 }
 </script>
 
@@ -47,7 +58,7 @@ function currentChange(curr) {
         <p class="description">{{ article.summary }}</p>
         <!-- <div class="category">{{ article.category.category_name }}</div> -->
         <div class="info-footer">
-          <div class="category"> <Category fill="wheat" width="18" height="18"/> <span>{{ article.category.category_name }}</span></div>
+          <div class="category" > <Category fill="wheat" width="18" height="18"/> <span>{{ article.category.category_name }}</span></div>
           <div class="tags">
             <span class="tag" v-for="tag in article.tags"> 
               <Tag fill="wheat" width="12" height="12" />
@@ -170,6 +181,10 @@ function currentChange(curr) {
   display: flex;
   align-items: center;
 }
+/* .category:hover {
+  cursor: pointer;
+  color: chocolate;
+} */
 .tags {
   right: 20px;
   margin-left: 10px;
@@ -180,6 +195,10 @@ function currentChange(curr) {
   display: flex;
   align-items: center;
 }
+/* .tag:hover {
+  cursor: pointer;
+  color: chocolate;
+} */
 .info:hover .info-footer {
   opacity: 1;
   bottom: 12px;
