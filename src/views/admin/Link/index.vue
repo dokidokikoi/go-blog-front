@@ -4,6 +4,7 @@ import { Plus, Edit, Delete  } from '@element-plus/icons-vue'
 import { listLink, createLink, updateLink, deleteLink } from "@/api/link"
 import Upload from "@/components/Upload/index.vue"
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { formatTime } from "@/utlis/time"
 
 const tableData = ref([
 ])
@@ -101,7 +102,12 @@ getLinkList()
     <el-table-column prop="avatar" label="logo" />
     <el-table-column prop="url" label="url" />
     <el-table-column prop="summary" label="简介" />
-    <el-table-column prop="action" label="操作">
+    <el-table-column prop="created_at" label="创建日期">
+      <template #default="{row}" style="padding: 10px, 0;">
+        {{ formatTime(row.created_at) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="action" fixed="right" label="操作" width="110">
       <template #default="{row}" style="padding: 10px, 0;">
         <el-button
           type="primary"

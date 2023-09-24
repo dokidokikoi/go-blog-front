@@ -1,16 +1,42 @@
 <script setup>
+import { listLink } from "@/api/link" 
+import { ref } from 'vue'
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
+const globalStore = useGlobalStore()
+const { loading } = storeToRefs(globalStore)
+loading.value = false
+const links = ref([])
+
+function getLinkList() {
+  listLink().then(res => {
+    links.value = res.data.list
+  }).finally(() => {
+    loading.value = false
+  })
+}
+
+function jump(site) {
+  // 打开一个新窗口并跳转到指定页面
+  var newWindow = window.open(site.url, '_blank');
+
+  // 在新窗口上执行其他操作（可选）
+  newWindow.focus();
+}
+
+getLinkList()
 </script>
 
 <template>
-<ul class="links">
-  <li class="link" v-for="i in 5" :key="i">
+<ul class="links" v-if="links.length > 0">
+  <li class="link" v-for="link in links" :key="link" @click="jump(link.url)">
     <div class="info">
-      <div class="title">Harukaze</div>
-      <div class="desc">时间流转，生命脉动</div>
+      <div class="title">{{ link.link_name }}</div>
+      <div class="desc">{{ link.summary }}</div>
     </div>
     <div class="avatar">
-      <img src="https://shoka.lostyu.me/images/avatar.jpg" alt="">
+      <img :src="link.avatar" alt="">
     </div>
   </li>
 </ul>
@@ -33,7 +59,7 @@ ul::after {
 .link {
   width: 30.8%;
   height: 90px;
-  background-color:antiquewhite;
+  background-color:rgb(252, 250, 246);
   border-radius: 8px;
   flex-wrap: wrap;
   margin: 10px;

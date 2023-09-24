@@ -1,35 +1,51 @@
 <script setup>
-import UnderLoading from '@/components/UnderLoading/index.vue';
 import { ref } from 'vue';
+import { getTimeStamp } from "@/utlis/time"
 
-const loading = ref(false);
-function loadArticle() {
-  loading.value = true;
-  setTimeout(() => {
-    loading.value = false;
-  }, 2000);
-}
+const props = defineProps({
+  list: {
+    type: Array,
+    default: []
+  }
+})
+
 </script>
 
 <template>
 <div style="display: flex; align-items: center; flex-direction: column;">
   <div class="bookshelfs">
-    <div class="bookshelf" v-for="i in 3" :key="i">
+    <div class="bookshelf" v-for="items in list" >
       <div class="book-grid">
         <ul>
-          <li> <img src="https://images.penguinrandomhouse.com/cover/9781101931288"/></li>
-          <li> <img src="https://i.harperapps.com/covers/9780062698162/x510.jpg"/></li>
-          <li> <img src="https://i.harperapps.com/covers/9780062698162/x510.jpg"/></li>
-          <li> <img src="https://www.canva.com/learn/wp-content/uploads/2015/03/draculabramstoker-tb-800x0.jpg"/></li>
+          <li v-for="item in items" :key="item.id"> 
+            <div class="container">
+              <div class="card" @click="flip">
+                <div class="card-inner front">
+                  <img :src="item.cover"/>
+                </div>
+                <div class="card-inner back">
+                  <div class="header">
+                    <h3 class="title">{{item.item_name}}</h3>
+                    <p class="author">-- {{item.author}}</p>
+                    <div class="rate">
+                      <el-rate v-model="item.rate" size="small" disabled allow-half :texts="['oops', 'disappointed', 'normal', 'good', 'great']" />
+                    </div>
+                  </div>
+                  <div class="footer">
+                    <p class="intro">{{item.summary}}</p>
+                    <div class="progress">
+                      <el-progress :percentage="Math.floor(item.progress/item.total*100)" :stroke-width="5" striped striped-flow />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="shelf-shadows"></div>
       <div class="shelf"></div>
     </div>
-  </div>
-  <div class="previous">
-    <button v-show="!loading" class="btn" @click="loadArticle()">Previous</button>
-    <UnderLoading v-show="loading" class="loading" />
   </div>
 </div>
 </template>
@@ -45,7 +61,6 @@ function loadArticle() {
   position: relative;
   box-sizing: border-box;
 }
-
 .book-grid {
   z-index: 2;
   position: relative;
@@ -60,12 +75,101 @@ function loadArticle() {
 }
 .book-grid ul li {
   justify-self: center;
-}
-.book-grid ul img {
   display: block;
-  box-shadow: 0px -5px 20px 2px rgba(0, 0, 0, 0.3);
   width: 170px;
   height: 240px;
+}
+.container {
+  position: relative;
+  width: 100%;
+	height: 100%;
+}
+.card {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	perspective: 1000px;
+	transform-style: preserve-3d;
+	transition: transform 300ms ease-in-out;
+	will-change: transform;
+	box-shadow: 0 8px 16px rgba(0,0,0,.4);
+  bottom: 0;
+}
+.card .card-inner {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	backface-visibility: hidden;
+  bottom: 0;
+}
+.front {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.back	{
+	background-color:#4c8dae;
+	transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+.back .header, .footer {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.back .header {
+  top: 10px;
+}
+.back .footer {
+  bottom: 20px;
+}
+.back .title {
+  padding: 0 10px;
+}
+.back .progress {
+  width: 100%;
+  padding: 0 16px;
+}
+:deep(.el-progress__text)  {
+  font-size: 4px !important;
+  min-width: 0 !important;
+  color: aliceblue;
+}
+.back .rate {
+  padding: 0 10px;
+  position: relative;
+  top: -6px;
+}
+.back .intro {
+  height: 6.4rem;
+  font-size: .875em;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
+  width: 100%;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+.back .author {
+  font-size: .8em;
+  color: rgb(88, 86, 86);
+  position: relative;
+  top: -4px;
+}
+.container:hover .card {
+	transform: translateY(-20px) scale(1.2) rotatey(180deg);
+}
+.book-grid ul img {
+  width: 100%;
+  height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
 }
@@ -89,27 +193,5 @@ function loadArticle() {
   background-color: #f9f9f9;
   border-radius: 2px;
   z-index: 3;
-}
-.previous {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  position: relative;
-}
-.previous .btn {
-  width: 90px;
-  height: 50px;
-  background-color: aqua;
-  margin-top: 20px;
-  border-radius: 50px;
-  border-width: .1px;
-  border-color: rgb(82, 156, 156);
-}
-.previous .btn:hover {
-  box-shadow: 0 0 10px rgba(0,0,0,.1);
-  cursor: pointer;
-}
-.previous .loading {
-  margin: 20px 0;
 }
 </style>

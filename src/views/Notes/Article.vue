@@ -1,35 +1,72 @@
 <script setup>
+import Clock from '@/components/icons/Clock.vue'
+import Category from '@/components/icons/Category.vue'
+import Tag from '@/components/icons/Tag.vue'
+import { formatDay } from '../../utlis/time';
+import Comment from '@/components/icons/Comment.vue'
+import Eye from '@/components/icons/Eye.vue'
 
+const props = defineProps({
+  articles: {
+    type: Array,
+    default: []
+  },
+  total: {
+    type: Number,
+    default: 0
+  },
+  pageSize: {
+    type: Number,
+    default: 0
+  }
+})
+const emit = defineEmits()
+
+function currentChange(curr) {
+  emit('currentChange', curr)
+}
 </script>
 
 <template>
 <div class="container">
   <div class="article-section">
-    <div class="article" v-for="i in 5" :key="i">
+    <div class="article" v-for="article in articles" :key="article.id">
       <div class="cover">
-        <img src="https://img.timelessq.com/images/2022/07/26/e1077c43120f41fdab6a5b79cc10a94b.jpg" alt="">
+        <img :src="article.cover" alt="">
       </div>
-      <RouterLink class="info" to="/">
-        <h2 class="title">文章标题</h2>
-        <div class="meta">
-          <p>2023-08-31</p>
-          <p style="margin-left: 10px;">1023字</p>
+      <RouterLink class="info" :to="`/article/${article.id}`">
+        <div class="top">
+          <h2 class="title">{{ article.title }}</h2>
+          <div class="meta">
+            <p style="display: flex; align-items: center;color:rgb(208, 228, 246);"><Clock fill="rgb(208, 228, 246)" /> <span>{{ formatDay(article.created_at) }}</span></p>
+            <p style="display: flex; align-items: center;margin-left: 8px;color:rgb(208, 228, 246);"><Eye fill="rgb(208, 228, 246)" width="17" height="17" /> <span> {{ article.view_counts }}</span></p>
+            <p style="display: flex; align-items: center;margin-left: 8px;color:rgb(208, 228, 246);"><Comment fill="rgb(208, 228, 246)" width="14" height="14" /> <span> {{ article.comment_counts }}</span></p>
+            <!-- <p style="margin-left: 10px;">1023字</p> -->
+          </div>
         </div>
-        <br>
-        <p class="description">文章描述 文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述</p>
-        <br>
-        <div class="category">技术文章</div>
+        <p class="description">{{ article.summary }}</p>
+        <!-- <div class="category">{{ article.category.category_name }}</div> -->
+        <div class="info-footer">
+          <div class="category"> <Category fill="wheat" width="18" height="18"/> <span>{{ article.category.category_name }}</span></div>
+          <div class="tags">
+            <span class="tag" v-for="tag in article.tags"> 
+              <Tag fill="wheat" width="12" height="12" />
+              <span>{{tag.tag_name}}</span>
+            </span>
+          </div>
+        </div>
       </RouterLink>
     </div>
   </div>
-  <el-pagination background layout="prev, pager, next" style="margin-top: 30px;" :total="100" />
+  <el-pagination background layout="prev, pager, next" style="margin-top: 30px;" :page-size="pageSize"
+  @current-change="currentChange" @prev-click="currentChange" @next-click="currentChange" :total="total" />
 </div>
 </template>
 
 <style scoped>
 .container {
   padding: 20px;
-  width: calc(100% - 17rem);
+  width: calc(100% - 21rem);
   min-width: calc(50% - 2rem);
   display: flex;
   flex-direction: column;
@@ -110,17 +147,51 @@
   z-index: 10;
   opacity: 0;
   transition-duration: .3s;
+  position: absolute;
+  bottom: 20px;
+  overflow-wrap: break-word;
+  left: 0;
+  width: 100%;
+  padding: 0 20px;
 }
 .info:hover .description {
   opacity: 1;
+  bottom: 40px;
 }
-.category {
+.info-footer {
   position: absolute;
-  bottom: 12px;
+  bottom: -12px;
+  font-size: .8em;
+  display: flex;
   opacity: 0;
   transition-duration: .3s;
 }
-.info:hover .category {
+.category {
+  display: flex;
+  align-items: center;
+}
+.tags {
+  right: 20px;
+  margin-left: 10px;
+  display: flex;
+}
+.tag {
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+}
+.info:hover .info-footer {
   opacity: 1;
+  bottom: 12px;
+}
+.top {
+  position: absolute;
+  top: 20px;
+  left: 0;
+  width: 100%;
+  transition-duration: .3s;
+}
+.article:hover .top {
+  top: 40px;
 }
 </style>

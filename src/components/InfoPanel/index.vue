@@ -2,27 +2,69 @@
 import GithubIcon from '../icons/GithubIcon.vue';
 import QQIcon from '../icons/QQIcon.vue';
 import EmailIcon from '../icons/EmailIcon.vue';
+import { getItem } from "@/utlis/localStorage";
+import { ref } from 'vue';
+import { listCategory } from "@/api/category"
+import { listTag } from "@/api/tag"
+import { listSeries } from "@/api/series"
+import { listArticle } from "@/api/article"
+
+const host = ref({})
+const categories = ref([
+])
+const series = ref([
+])
+const tags = ref([
+])
+const totalCount = ref(0)
+
+function search() {
+  listArticle({category: 0, series: 0}, {page_size: 0}).then(res => {
+    totalCount.value = res.data.total
+  })
+}
+function getCategoryList() {
+  listCategory({type: 1}).then(res => {
+    categories.value = res.data.list
+  })
+}
+function getSeriesList() {
+  listSeries().then(res => {
+    series.value = res.data.list
+  })
+}
+function getTagList() {
+  listTag({type: 1}).then(res => {
+    tags.value = res.data.list
+  })
+}
+
+host.value = getItem("host")
+getCategoryList()
+getSeriesList()
+getTagList()
+search()
 </script>
 
 <template>
 <div class="panel">
   <div class="intro">
     <div class="avatar">
-      <img src="https://shoka.lostyu.me/images/avatar.jpg" alt="">
+      <img :src="host.avatar" alt="">
     </div>
-    <div class="site">Harukaze</div>
+    <div class="site">{{ host.nick_name }}</div>
     <div class="summary">时间流转，生命脉动</div>
     <div class="state">
       <div class="artcle" style="border-right-width: 1px;border-right-color: black;border-right-style: solid;">
-        <span>23</span>
+        <span>{{ totalCount }}</span>
         <span>文章</span>
       </div>
       <div class="series" style="border-right-width: 1px;border-right-color: black;border-right-style: solid;">
-        <span>2</span>
+        <span>{{ series.length }}</span>
         <span>系列</span>
       </div>
       <div class="tags">
-        <span>10</span>
+        <span>{{ tags.length }}</span>
         <span>标签</span>
       </div>
     </div>
@@ -35,10 +77,13 @@ import EmailIcon from '../icons/EmailIcon.vue';
   <div class="all-tags">
     <div class="label">标签</div>
     <div class="content">
-      <a class="tag">#golang</a>
-      <a class="tag">#linux</a>
-      <a class="tag">#c</a>
-      <a class="tag">#os</a>
+      <a class="tag" v-for="tag in tags">#{{ tag.tag_name }}</a>
+    </div>
+  </div>
+  <div class="all-tags" style="margin-top: 20px;">
+    <div class="label">系列</div>
+    <div class="content">
+      <a class="tag" v-for="s in series">#{{ s.series_name }}</a>
     </div>
   </div>
 </div>
@@ -104,7 +149,7 @@ import EmailIcon from '../icons/EmailIcon.vue';
 
 .all-tags {
   width: 100%;
-  margin-top: 50px;
+  margin-top: 40px;
 } 
 .all-tags .label {
   background: #000;
@@ -122,10 +167,11 @@ import EmailIcon from '../icons/EmailIcon.vue';
   margin-top: 10px;
 }
 .all-tags .content .tag {
-  margin: 0 6px;
+  margin: 0 6px 0 0;
   color: rgb(74, 74, 238);
   font-size: 1.1em;
   transition: all .2s ease-in-out 0s;
+  font-size: .9em;
 }
 .all-tags .content .tag:hover {
   cursor: pointer;

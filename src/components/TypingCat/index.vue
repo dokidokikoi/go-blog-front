@@ -3,7 +3,6 @@
 </script>
 
 <template>
-
 <div class="content">
   <div class="container">
     <svg id="bongo-cat" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 787.3 433.8">
@@ -137,23 +136,17 @@
 <style scoped>
 .content {
   position: relative;
+  height: 100vh;
+  width: 100vw;
 }
-
-.container {
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
 #bongo-cat {
   position: absolute;
   height: 80vh;
   width: 80vw;
-  top: 100vh;
   bottom: 0;
   left: 0;
   right: 0;
+  top: 0;
   margin: auto;
 }
 

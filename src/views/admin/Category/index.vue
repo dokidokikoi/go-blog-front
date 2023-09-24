@@ -91,7 +91,7 @@ getCategoryList()
         {{ typeList[row.type] }}
       </template>
     </el-table-column>
-    <el-table-column prop="action" label="操作" width="110">
+    <el-table-column prop="action" label="操作" fixed="right" width="110">
       <template #default="{row}" style="padding: 10px, 0;">
         <el-button
           type="primary"

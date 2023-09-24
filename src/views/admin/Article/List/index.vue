@@ -89,7 +89,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="status" label="文章状态" />
-        <el-table-column prop="action" label="操作" fixed="right"  width="140">
+        <el-table-column prop="action" label="操作" fixed="right" width="140">
           <template #default="{row}" style="padding: 10px, 0;">
             <div class="xyz">
               <el-tooltip

@@ -1,7 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/Home/index.vue";
 import { ElMessage } from 'element-plus'
-import { getItem } from "../utlis/localStorage";
+import { getItem, setItem } from "../utlis/localStorage";
+import { getUser } from "@/api/user"
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +29,14 @@ const router = createRouter({
             title: "随笔"
           },
           component: () => import("../views/Notes/index.vue"),
+        },
+        {
+          path: "/article/:id",
+          name: "blog",
+          meta: {
+            title: ""
+          },
+          component: () => import("../views/Article/index.vue"),
         },
         {
           path: "/archives",
@@ -187,14 +198,25 @@ const router = createRouter({
   },
 });
 
+
 router.beforeEach((to, from, next) => {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
   window.pageYOffset = 0;
-  next();
-})
+  const globalStore = useGlobalStore()
+  const { loading } = storeToRefs(globalStore)
+  loading.value = true
 
-router.beforeEach((to, from, next) => {
+  let host = getItem("host")
+  if (!host) {
+    getUser(1).then(res => {
+      if (res.data.id !== 1) {
+        return 
+      }
+      setItem("host", res.data)
+    })
+  }
+
   const patt = /\/admin\/*/
   if (to.name === 'login') {
     next()
@@ -209,7 +231,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title === "harukaze" ? to.meta.title:"harukaze | "+to.meta.title
   }
   // const body = document.querySelector('.el-main')
   // if (body) body.scrollTop = 0

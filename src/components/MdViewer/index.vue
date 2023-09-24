@@ -1,12 +1,21 @@
 <template>
-	<div
-		v-for="anchor in titles"
-		:style="{ padding: `5px 0 5px ${anchor.indent * 20}px` }"
-		@click="handleAnchorClick(anchor)"
-	>
-		<a style="cursor: pointer">{{ anchor.title }}</a>
+	<div class="viewer" ref="viewerRef">
+
+		<v-md-preview class="content" :text="text" ref="preview" @image-click="imageFocus"></v-md-preview>
+
+		<div class="index" :style="`height:${pageHeight}px`">
+			<div class="toc">
+				<div
+					v-for="anchor in titles"
+					:style="{ padding: `5px 0 5px ${anchor.indent * 20}px` }"
+					@click="handleAnchorClick(anchor)"
+				>
+					<a style="cursor: pointer">{{ anchor.title }}</a>
+				</div>
+			</div>
+		</div>
 	</div>
-	<v-md-preview :text="text" ref="preview" @image-click="imageFocus"></v-md-preview>
+
 	<el-dialog v-model="dialogImageVisible" center>
     <el-carousel :initial-index="dialogImageIndex" :autoplay="false" height="400px">
       <el-carousel-item v-for="item in dialogImages" :key="item">
@@ -19,43 +28,60 @@
 <script setup>
 import { onMounted, ref, getCurrentInstance } from "vue"
 
-let text = ref(`
-# heading 1
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
+const props = defineProps({
+  text: {
+    type: String,
+    default: ''
+  },
+  storeKey: {
+    type: String,
+    default: 'edit'
+  }
+})
 
-## heading 2
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png){{{width="100" height="auto"}}}
+const viewerRef = ref(null)
+const pageHeight = ref(0)
+onMounted(()=>{
+	pageHeight.value = viewerRef.value.clientHeight+20;
+})
 
-### heading 3
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
+// let text = ref(`
+// # heading 1
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
 
-## heading 2
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
+// ## heading 2
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// ![golang](https://www.freecodecamp.org/news/content/images/2021/10/golang.png){{{width="100" height="auto"}}}
 
-### heading 3
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-contentcontentcontent
-`)
+// ### heading 3
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+
+// ## heading 2
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+
+// ### heading 3
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// contentcontentcontent
+// `)
 
 let dialogImageVisible = ref(false)
 let dialogImages = ref([])
@@ -63,6 +89,7 @@ let dialogImageIndex = ref(0)
 
 let titles = ref([])
 let _this = {}
+
 onMounted(() => {
 	_this = getCurrentInstance()
 	const anchors = _this.refs.preview.$el.querySelectorAll('h1,h2,h3,h4,h5,h6');
@@ -106,4 +133,26 @@ function imageFocus(images, currentIndex) {
 </script>
 
 <style scoped>
+.viewer {
+
+}
+.content {
+	width: calc(100% - 17em);
+	margin: auto;
+	margin-top: 10px;
+}
+.index {
+	top: 0;
+	right: calc((100% - 1400px)/2);
+	position: absolute;
+	width: 17em;
+	padding-left: 20px;
+	margin-top: 490px;
+}
+.toc {
+	position: -webkit-sticky;
+	position: sticky;
+	top: 80px;
+	overflow-y: auto;
+}
 </style>

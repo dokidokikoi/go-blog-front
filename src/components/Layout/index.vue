@@ -16,7 +16,7 @@ import { RouterView } from "vue-router";
 
 <style scoped>
 .common-layout {
-  position: relative;
+  /* position: relative; */
 }
 .el-header {
   --el-header-padding: 0;

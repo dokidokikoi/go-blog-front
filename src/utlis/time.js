@@ -25,3 +25,20 @@ export const formatDay = (originVal) => {
     const d = (dt.getDate() + '').padStart(2, '0')
     return `${y}-${m}-${d}`
 }
+
+export const getYear = (originVal) => {
+    if (!originVal) return
+
+    const dt = new Date(originVal)
+    const y = (dt.getFullYear() + '').slice(0, 4)
+    return y
+}
+
+
+export const getMonth = (originVal) => {
+    if (!originVal) return
+
+    const dt = new Date(originVal)
+    const m = (dt.getMonth() + 1 + '').padStart(2, '0')
+    return m
+}

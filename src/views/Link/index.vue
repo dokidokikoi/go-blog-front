@@ -2,33 +2,30 @@
 import { ref } from 'vue';
 import Bannar from '@/components/Bannar/index.vue';
 import List from './List.vue';
-
+import { getItem } from '@/utlis/localStorage'
+ 
+const showInfo = ref(false)
 const siteMsg = ref({}) 
+const host = ref({})
 
 function getLinkMsg() {
-  document.getElementById("link-info").style.display = "block";
+  showInfo.value = !showInfo.value
 }
+
+host.value = getItem('host')
 </script>
 
 <template>
 <div>
   <Bannar />
-  <div style="background-color: white; width: 100%;">
+  <div style="background-color: white; width: 100%; min-height: 740px;">
     <div class="body">
       <h1>INFO</h1>
       <div class="info">
-        <div>
-          <p>title: </p>
-          <p>description: </p>
-          <p>url: </p>
-        <p>avatar: </p>
-        </div>
-        <div>
-          <p>harukaze</p>
-          <p>harukaze</p>
-          <p>https://haruakze.top</p>
-          <p>haru</p>
-        </div>
+          <p><span>title: </span><span>harukaze</span></p>
+          <p><span>description: </span><span>{{ host.intro }}</span></p>
+          <p><span>url: </span><span>https://harukaze.top</span></p>
+          <p><span>avatar: </span><span>{{ host.avatar }}</span></p>
       </div>
       <h3>欢迎添加友链</h3>
       <div class="msg">
@@ -50,20 +47,14 @@ function getLinkMsg() {
               <el-button type="primary"  @click="getLinkMsg">生成友链信息</el-button>
             </div>
         </el-form>
-        <div id="link-info">
+        <div id="link-info" v-show="showInfo">
           <h1>INFO</h1>
           <div class="info">
-            <div>
-              <p>title: </p>
-              <p>description: </p>
-              <p>url: </p>
-            <p>avatar: </p>
-            </div>
-            <div>
-              <p>{{ siteMsg.title }}</p>
-              <p>{{ siteMsg.description }}</p>
-              <p>{{ siteMsg.url }}</p>
-              <p>{{ siteMsg.avatar }}</p>
+            <div class="">
+              <p><span>title: </span><span>{{ siteMsg.title }}</span></p>
+              <p><span>description: </span><span>{{ siteMsg.description }}</span></p>
+              <p><span>url: </span><span>{{ siteMsg.url }}</span></p>
+              <p><span>avatar: </span><span>{{ siteMsg.avatar }}</span></p>
             </div>
           </div>
         </div>
@@ -100,25 +91,19 @@ function getLinkMsg() {
   padding: 20px;
   border: 2px dashed #ccc;
   /* border-top: none; */
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 }
-.info div:nth-child(1) {
-  width: 30%;
-}
-.info div:nth-child(2) {
-  width: 70%;
-}
-.info div:nth-child(1) p {
+.info p span:nth-child(1) {
+  display: inline-block;
+  width: 40%;
   text-align: right;
-  font-size: 1.1em; 
+  padding-right: 10px;
 }
-.info div:nth-child(2) p {
-  text-align: left;
-  font-size: 1.1em;
-  color: grey;
-  padding-left: 10px;
+.info p span:nth-child(2) {
+  display: inline-block;
+  width: 60%;
 }
 .body h3 {
   font-size: 1.4em;
@@ -142,7 +127,6 @@ function getLinkMsg() {
   justify-content: end;
 }
 #link-info {
-  display: none;
   transition-duration: .3s;
 }
 </style>

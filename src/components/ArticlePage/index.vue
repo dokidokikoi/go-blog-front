@@ -2,39 +2,76 @@
 import { RouterLink } from 'vue-router';
 import { ref } from 'vue';
 import UnderLoading from '@/components/UnderLoading/index.vue';
+import { listArticle } from "@/api/article"
+import Clock from '@/components/icons/Clock.vue'
+import Category from '@/components/icons/Category.vue'
+import Tag from '@/components/icons/Tag.vue'
+import Comment from '@/components/icons/Comment.vue'
+import Eye from '@/components/icons/Eye.vue'
+import { formatDay } from '../../utlis/time';
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
-const loading = ref(false);
+const globalStore = useGlobalStore()
+const { loading } = storeToRefs(globalStore)
+
+const pageLoading = ref(false);
+const articles = ref([])
+const totalCount = ref(0)
+const searchParams = ref({
+
+})
+const pagination = ref({
+  page: 1,
+  page_size: 6,
+  order_by: "weight desc, created_at desc"
+})
 function loadArticle() {
   loading.value = true;
-  setTimeout(() => {
+  listArticle(searchParams.value, pagination.value).then(res => {
+    articles.value = articles.value.concat(res.data.list)
+    totalCount.value = res.data.total
+  }).finally(()=>{
     loading.value = false;
-  }, 2000);
+    pageLoading.value = false
+  })
 }
+loadArticle()
 </script>
 
 <template>
 <div class="article-page">
   <div class="article-section">
-    <div class="article" v-for="i in 5" :key="i">
-      <RouterLink class="cover" to="/">
-        <img src="https://img.timelessq.com/images/2022/07/26/e1077c43120f41fdab6a5b79cc10a94b.jpg" alt="">
+    <div class="article" v-for="item in articles" :key="item.id">
+      <RouterLink class="cover" :to="`/article/${item.id}`">
+        <img :src="item.cover" alt="">
       </RouterLink>
       <div class="info">
         <div class="meta">
-          <p>2023-08-31</p>
-          <p style="margin-left: 10px;">1023字</p>
+          <p style="display: flex; align-items: center;"><Clock /> <span>{{ formatDay(item.created_at) }}</span></p>
+          <p style="display: flex; align-items: center;margin-left: 8px;"><Eye width="17" height="17" /> <span> {{ item.view_counts }}</span></p>
+          <p style="display: flex; align-items: center;margin-left: 8px;"><Comment width="14" height="14" /> <span> {{ item.comment_counts }}</span></p>
+          <!-- <p style="margin-left: 10px;">1023字</p> -->
         </div>
-        <h2 class="title">文章标题</h2>
+        <h2 class="title">{{item.title}}</h2>
         <br>
-        <p class="description">文章描述 文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述述文章描述文章描述文章描述文章描述文章描述</p>
+        <p class="description">{{ item.summary }}</p>
         <br>
-        <div class="category">技术文章</div>
+        <div class="info-footer">
+          <div class="category"> <Category width="18" height="18"/> <span>{{ item.category.category_name }}</span></div>
+          <div class="tags">
+            <span class="tag" v-for="tag in item.tags"> 
+              <Tag width="12" height="12" />
+              <span>{{tag.tag_name}}</span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
   <div class="previous">
-    <button v-show="!loading" class="btn" @click="loadArticle()">Previous</button>
-    <UnderLoading v-show="loading" class="loading" />
+    <button v-show="!pageLoading&&totalCount>articles.length" class="btn" @click="loadArticle()">Previous</button>
+    <UnderLoading v-show="pageLoading" class="loading" />
   </div>
 </div>
 </template>
@@ -54,6 +91,7 @@ function loadArticle() {
   margin: auto;
   height: 250px;
   /* background-color: aqua; */
+  width: 87%;
   margin: 16px;
   display: flex;
   border-radius: .625rem;
@@ -110,7 +148,6 @@ function loadArticle() {
   font-size: .875em;
   color: grey;
 }
-
 .info .description {
   height: 5rem;
   font-size: .875em;
@@ -119,14 +156,32 @@ function loadArticle() {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
   text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 
 .article:nth-child(odd) .meta {
   justify-content: flex-end;
 }
-.category {
+.info-footer {
   position: absolute;
   bottom: 12px;
+  color: grey;
+  font-size: .8em;
+  display: flex;
+}
+.category {
+  display: flex;
+  align-items: center;
+}
+.tags {
+  right: 20px;
+  margin-left: 10px;
+  display: flex;
+}
+.tag {
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
 }
 .previous {
   margin-top: 30px;

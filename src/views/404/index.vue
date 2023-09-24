@@ -1,5 +1,10 @@
 <script setup>
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
+const globalStore = useGlobalStore()
+const { loading } = storeToRefs(globalStore)
+loading.value = false
 </script>
 
 <template>

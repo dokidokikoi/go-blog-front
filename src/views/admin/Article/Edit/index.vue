@@ -86,7 +86,6 @@ function getTagList() {
 }
 function getArticleWithBody(id) {
   getArticle(id).then(res => {
-    console.log(res)
     articleParam.value.id = res.data.id
     articleParam.value.category_id = res.data.category_id
     articleParam.value.series_id = res.data.series_id

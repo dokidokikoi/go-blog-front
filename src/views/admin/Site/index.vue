@@ -3,7 +3,7 @@ import { ref } from "vue"
 import { Plus, Edit, Delete  } from '@element-plus/icons-vue'
 import Upload from "@/components/Upload/index.vue"
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { formatTime, formatDay } from "@/utlis/time"
+import { formatTime } from "@/utlis/time"
 import { listSite, createSite, updateSite, deleteSite } from "@/api/site"
 import Category from "../Category/Upsert.vue";
 import Tag from "../Tag/Upsert.vue";
@@ -143,7 +143,11 @@ getSiteList()
   <el-button type="primary" @click="showCreateSite" :icon="Plus" />
   <el-table :data="tableData" stripe style="width: 100%">
     <el-table-column prop="site_name" label="网站名" />
-    <el-table-column prop="logo" label="logo" />
+    <el-table-column prop="logo" label="logo">
+      <template #default="{row}">
+        <el-avatar shape="square" :src="row.logo" />
+      </template>
+    </el-table-column>
     <el-table-column prop="url" label="url" />
     <el-table-column prop="summary" label="简介" />
     <el-table-column prop="category" label="分类">
@@ -158,7 +162,12 @@ getSiteList()
         </div>
       </template>
     </el-table-column>
-    <el-table-column prop="action" label="操作">
+    <el-table-column prop="created_at" label="创建日期">
+      <template #default="{row}" style="padding: 10px, 0;">
+        {{ formatTime(row.created_at) }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="action" fixed="right" label="操作">
       <template #default="{row}" style="padding: 10px, 0;">
         <el-button
           type="primary"

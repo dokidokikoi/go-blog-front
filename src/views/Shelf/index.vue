@@ -5,7 +5,53 @@ import AnimeIcon from '@/components/icons/AnimeIcon.vue';
 import BookIcon from '@/components/icons/BookIcon.vue';
 import GameIcon from '@/components/icons/GameIcon.vue';
 import MoviceIcon from '@/components/icons/MoviceIcon.vue';
+import UnderLoading from '@/components/UnderLoading/index.vue';
+import { listList } from '@/api/list'
+import { ref } from 'vue'
+import { useGlobalStore } from '@/stores/global'
+import { storeToRefs } from 'pinia'
 
+const globalStore = useGlobalStore()
+const { loading } = storeToRefs(globalStore)
+loading.value = false
+
+const pageLoading = ref(false);
+
+const totalCount = ref(0)
+const searchParam = ref({
+  page: 1,
+  page_size: 10,
+  order_by: "created_at desc",
+  type: 4
+})
+const list = ref([])
+const shelfData = ref([])
+
+function getListList() {
+  listList(searchParam.value).then(res => {
+    list.value = list.value.concat(res.data.list)
+    shelfData.value = []
+    let level = -1
+    let cnt = 0
+    list.value.forEach(e => {
+      if (cnt++%4 == 0) {
+        level++
+        shelfData.value.push([e])
+      } else {
+        shelfData.value[level].push(e)
+      }
+    })
+    totalCount.value = res.data.total
+  }).finally(() => {
+    loading.value = false
+    pageLoading.value = false
+  })
+}
+function typeChange(type) {
+  list.value = []
+  searchParam.value.type = type
+  getListList()
+}
 function active(type) {
   const a = document.querySelector('.active')
   if (a) {
@@ -13,7 +59,26 @@ function active(type) {
   }
   
   document.querySelector(type).classList.add('active');
+  switch (type) {
+    case ".books":
+    typeChange(4)
+      break;
+    case ".anime":
+    typeChange(1)
+      break
+    case ".games":
+    typeChange(2)
+      break
+    case ".movice":
+    typeChange(3)
+      break
+    default:
+    typeChange(4)
+      break;
+  }
 }
+
+getListList()
 </script>
 
 <template>
@@ -39,7 +104,11 @@ function active(type) {
           <span style="display: none;">电影</span>
         </div>
       </div>
-      <BookShelf />
+      <BookShelf v-if="shelfData.length > 0" :list="shelfData" />
+      <div class="previous" v-show="totalCount>list.length">
+        <button v-show="!pageLoading&&totalCount>list.length" class="btn" @click="getListList()">Previous</button>
+        <UnderLoading v-show="pageLoading" class="loading" />
+      </div>
     </div>
   </div>
 </div>
@@ -94,5 +163,27 @@ function active(type) {
   align-items: center;
   justify-content: space-around;
   padding: 0 8px;
+}
+.previous {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+.previous .btn {
+  width: 90px;
+  height: 50px;
+  background-color: aqua;
+  margin-top: 20px;
+  border-radius: 50px;
+  border-width: .1px;
+  border-color: rgb(82, 156, 156);
+}
+.previous .btn:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,.1);
+  cursor: pointer;
+}
+.previous .loading {
+  margin: 20px 0;
 }
 </style>
