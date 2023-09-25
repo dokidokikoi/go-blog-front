@@ -14,6 +14,7 @@ import Comment from "@/components/Comment/index.vue"
 import { getItem } from "@/utlis/localStorage";
 import { useGlobalStore } from '@/stores/global'
 import { storeToRefs } from 'pinia'
+import { ElMessage } from 'element-plus'
 
 const globalStore = useGlobalStore()
 const { loading } = storeToRefs(globalStore)
@@ -52,7 +53,7 @@ host.value = getItem("host")
   <div class="cover">
     <div class="mask">
       <div class="info">
-        <p class="title">title</p>
+        <p class="title">{{ article.title }}</p>
         <div style="display: flex;">
           <span style="display: flex;align-items: center;"><Clock fill="#e6e6e6"/> <span>{{ formatTime(article.created_at) }}</span></span>
           <span class="dot">·</span>
