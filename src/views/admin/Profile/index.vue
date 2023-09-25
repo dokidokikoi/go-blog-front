@@ -104,6 +104,7 @@ userInfo.value = userStore.user
 }
 .avatar img {
   width: inherit;
+  height: inherit;
   object-fit: cover;
 }
 .over-avatar {

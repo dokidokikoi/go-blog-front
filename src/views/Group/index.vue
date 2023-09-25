@@ -38,6 +38,7 @@ const pagination = ref({
 })
 
 watch(route, async (newQuestion, oldQuestion) => {
+  articles.value = []
   getMate()
 })
 
@@ -149,6 +150,7 @@ getMate()
 }
 .bannar img {
   object-fit: cover;
+  height: 100%;
   width: 100%;
 }
 .bannar .mask {
