@@ -13,8 +13,8 @@ const { loading } = storeToRefs(globalStore)
 <template>
   <RouterView />
   <Loading v-show="loading" />
+  <el-backtop :visibility-height="400" :right="100" :bottom="100" />
 </template>
 
 <style scoped>
-
 </style>

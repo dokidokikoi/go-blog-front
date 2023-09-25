@@ -13,10 +13,10 @@ import Aplayer from 'vue3-aplayer'
 
 let playList = ref([
   {
-      title: 'secret base~君がくれたもの~',
-      artist: 'Silent Siren',
-      src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
-      pic: 'https://www.freecodecamp.org/news/content/images/2021/10/golang.png'
+    title: 'secret base~君がくれたもの~',
+    artist: 'Silent Siren',
+    src: 'https://moeplayer.b0.upaiyun.com/aplayer/secretbase.mp3',
+    pic: 'https://www.freecodecamp.org/news/content/images/2021/10/golang.png'
   }
 ])
 </script>

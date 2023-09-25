@@ -1,7 +1,7 @@
 <template>
 	<div class="viewer" ref="viewerRef">
 
-		<v-md-preview class="content" :text="text" ref="preview" @image-click="imageFocus"></v-md-preview>
+		<v-md-preview class="content" :include-level="[3, 4]" :text="text" ref="preview" @image-click="imageFocus"></v-md-preview>
 
 		<div class="index" :style="`height:${pageHeight}px`">
 			<div class="toc">
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, getCurrentInstance } from "vue"
+import { onMounted, ref, watch, getCurrentInstance } from "vue"
 
 const props = defineProps({
   text: {
@@ -43,6 +43,9 @@ const viewerRef = ref(null)
 const pageHeight = ref(0)
 onMounted(()=>{
 	pageHeight.value = viewerRef.value.clientHeight+20;
+})
+watch(viewerRef, async (newQuestion, oldQuestion) => {
+  pageHeight.value = viewerRef.value.clientHeight+20;
 })
 
 // let text = ref(`
@@ -154,5 +157,6 @@ function imageFocus(images, currentIndex) {
 	position: sticky;
 	top: 80px;
 	overflow-y: auto;
+	max-height: 500px;
 }
 </style>

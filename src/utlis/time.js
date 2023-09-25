@@ -34,11 +34,33 @@ export const getYear = (originVal) => {
     return y
 }
 
-
 export const getMonth = (originVal) => {
     if (!originVal) return
 
     const dt = new Date(originVal)
     const m = (dt.getMonth() + 1 + '').padStart(2, '0')
     return m
+}
+
+export const calcDays = (originVal) => {
+    const start = new Date(originVal).getTime()
+    const now = new Date().getTime()
+
+    let interval = (now - start)/1000/60/60/24
+    let str = ""
+    if (interval > 365) {
+        let y = Math.floor(interval/365)
+        interval %= 365
+        str += `${y} 年`
+    }
+    if (interval > 30) {
+        let m = Math.floor(interval/30)
+        interval %= 30
+        str += `${m} 个月`
+    }
+    if (interval > 1) {
+        str += `${Math.floor(interval)} 天`
+    }
+    
+    return str
 }

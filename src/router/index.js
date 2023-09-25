@@ -202,15 +202,12 @@ const router = createRouter({
   ],
   scrollBehavior(to, from, savedPosition) {
     // 将页面滚动到顶部
-    return { x: 0, y: 0 };
+    return { top: 0 };
   },
 });
 
 
 router.beforeEach((to, from, next) => {
-  document.body.scrollTop = 0;
-  document.documentElement.scrollTop = 0;
-  window.pageYOffset = 0;
   const globalStore = useGlobalStore()
   const { loading } = storeToRefs(globalStore)
   loading.value = true
@@ -241,6 +238,9 @@ router.afterEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title === "harukaze" ? to.meta.title:"harukaze | "+to.meta.title
   }
+  // document.body.scrollTop = 0;
+  // document.documentElement.scrollTop = 0;
+  // window.pageYOffset = 0;
   // const body = document.querySelector('.el-main')
   // if (body) body.scrollTop = 0
   // nprogress.done()

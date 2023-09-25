@@ -27,7 +27,6 @@ const host = ref({})
 function getArticleWithBody(id) {
   getArticle(id).then(res => {
     article.value = res.data
-    console.log(article.value)
   }).catch(err => {
     ElMessage.error('获取文章失败')
   }).finally(() => {
@@ -83,7 +82,7 @@ host.value = getItem("host")
         <RightQuote />
       </p>
     </div>
-    <Comment class="comments" :articleId="route.params.id" />
+    <Comment class="comments" :articleId="parseInt(route.params.id)" />
   </div>
 </div>
 </template>

@@ -5,7 +5,7 @@
         :src="comment.avatar? comment.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
       />
       <div class="info">
-        <div class="top">
+        <div class="top" v-if="/\/admin\/*/.test($route.fullPath)">
           <el-tooltip
                 effect="dark"
                 content="置顶评论"

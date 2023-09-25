@@ -1,16 +1,24 @@
 <script setup>
+import { calcDays } from '@/utlis/time'
+import { getItem } from '@/utlis/localStorage'
+import { ref } from 'vue';
+
+const host = ref({})
+host.value = getItem('host')
+
 const currentDate = new Date();
 const year = currentDate.getFullYear();
 const month = currentDate.getMonth() + 1;
 const day = currentDate.getDate();
+
 </script>
 
 <template>
 <div class="footer">
   <div class="item">©{{ year }} <span class="u26FA"></span>harukaze</div>
-  <div class="item"><a href="https://beian.miit.gov.cn/">苏ICP备20025413号</a></div>
+  <div class="item"><a href="https://beian.miit.gov.cn/">湘ICP备2021019471号</a></div>
   <br>
-  <p class="item">本站于 {{year}}-{{month}}-{{day}} 日确认存活，已运行 10 天</p>
+  <p class="item">本站于 {{year}}-{{month}}-{{day}} 日确认存活，已运行 {{calcDays(host.created_at)}}</p>
 </div>
 </template>
 

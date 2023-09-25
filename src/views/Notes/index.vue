@@ -6,7 +6,6 @@ import { ref } from 'vue';
 import { listArticle } from "@/api/article"
 import { useGlobalStore } from '@/stores/global'
 import { storeToRefs } from 'pinia'
-import { async } from '@kangc/v-md-editor';
 
 const globalStore = useGlobalStore()
 const { loading } = storeToRefs(globalStore)
@@ -14,7 +13,7 @@ loading.value = false
 const articles = ref([])
 const totalCount = ref(0)
 const searchParams = ref({
-
+  category: 2
 })
 const pagination = ref({
   page: 1,

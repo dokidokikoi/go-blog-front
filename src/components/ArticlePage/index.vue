@@ -21,7 +21,7 @@ const pageLoading = ref(false);
 const articles = ref([])
 const totalCount = ref(0)
 const searchParams = ref({
-
+  category: 1
 })
 const pagination = ref({
   page: 1,
