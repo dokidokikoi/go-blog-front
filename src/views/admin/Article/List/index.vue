@@ -184,7 +184,7 @@ const searchParams = ref({
 const pagination = ref({
   page: 1,
   page_size: 10,
-  order_by: "weight desc, id asc",
+  order_by: "weight desc, id desc",
 })
 const categories = ref([
 ])

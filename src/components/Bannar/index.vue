@@ -38,7 +38,7 @@
   min-height: 3.125rem;
   max-height: 9.375rem;
   position: absolute;
-  bottom: -14px;
+  bottom: -22px;
 }
 .wave {
   background: url("https://gcore.jsdelivr.net/gh/starlovei/cdn/img/other/wave1.png");

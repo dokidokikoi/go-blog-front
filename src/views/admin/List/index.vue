@@ -51,7 +51,7 @@ const totalCount = ref(0)
 const searchParam = ref({
   page: 1,
   page_size: 10,
-  order_by: "id asc",
+  order_by: "id desc",
   type: 1
 })
 function createItem() {

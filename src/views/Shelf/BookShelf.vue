@@ -1,11 +1,21 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { getTimeStamp } from "@/utlis/time"
 
 const props = defineProps({
   list: {
     type: Array,
     default: []
+  }
+})
+
+const loading = ref(false)
+
+watch(props.list, async (newQuestion, oldQuestion) => {
+  if (newQuestion == [] && oldQuestion != []) {
+    loading.value = true 
+  } else {
+    loading.value = false 
   }
 })
 
@@ -25,16 +35,16 @@ const props = defineProps({
                 </div>
                 <div class="card-inner back">
                   <div class="header">
-                    <h3 class="title">{{item.item_name}}</h3>
+                    <p class="title" :title="item.item_name">{{item.item_name}}</p>
                     <p class="author">-- {{item.author}}</p>
                     <div class="rate">
                       <el-rate v-model="item.rate" size="small" disabled allow-half :texts="['oops', 'disappointed', 'normal', 'good', 'great']" />
                     </div>
                   </div>
                   <div class="footer">
-                    <p class="intro">{{item.summary}}</p>
+                    <p class="intro" :title="item.summary">{{item.summary}}</p>
                     <div class="progress">
-                      <el-progress :percentage="Math.floor(item.progress/item.total*100)" :stroke-width="5" striped striped-flow />
+                      <el-progress :percentage="Math.floor(item.progress/item.total*100)" :stroke-width="5" striped color="#005CAF" striped-flow />
                     </div>
                   </div>
                 </div>
@@ -108,7 +118,7 @@ const props = defineProps({
 	align-items: center;
 }
 .back	{
-	background-color:#4c8dae;
+	background-color:#fff;
 	transform: rotateY(180deg);
   display: flex;
   flex-direction: column;
@@ -130,6 +140,15 @@ const props = defineProps({
 }
 .back .title {
   padding: 0 10px;
+  font-size: 1.1em;
+  font-weight: 500;
+  height: 1.5rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  text-overflow: ellipsis;
+  overflow-wrap: break-word;
 }
 .back .progress {
   width: 100%;
@@ -138,7 +157,7 @@ const props = defineProps({
 :deep(.el-progress__text)  {
   font-size: 4px !important;
   min-width: 0 !important;
-  color: aliceblue;
+  color: #005CAF;
 }
 .back .rate {
   padding: 0 10px;

@@ -39,7 +39,6 @@ function getTimeLine(data) {
       articles.value[y][m] = [element]
     }
   });
-  console.log(articles.value)
 }
 
 function loadArticle() {

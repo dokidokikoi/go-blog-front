@@ -15,7 +15,7 @@ const tableData = ref([
 const searchParam = ref({
   page: 1,
   page_size: 10,
-  oreder_by: "id asc" 
+  oreder_by: "id desc" 
 })
 const totalCount = ref(0)
 const dialogFormVisible = ref(false)

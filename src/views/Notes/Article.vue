@@ -42,6 +42,9 @@ function to(id, type) {
 <div class="container">
   <div class="article-section">
     <div class="article" v-for="article in articles" :key="article.id">
+      <div class="fixed-top" v-if="article.weight > 1">
+      置顶
+      </div>
       <div class="cover">
         <img :src="article.cover" alt="">
       </div>
@@ -212,5 +215,16 @@ function to(id, type) {
 }
 .article:hover .top {
   top: 40px;
+}
+.fixed-top {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: red;
+  color: aliceblue;
+  font-size: .7em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  z-index: 10;
 }
 </style>

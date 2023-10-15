@@ -1,6 +1,9 @@
 <template>
   <li>
-    <div style="margin-bottom: 20px;">
+    <div class="fixed-top" v-if="comment.weight > 1">
+      置顶
+    </div>
+    <div style="margin-bottom: 20px;margin-top: 20px;">
       <el-avatar
         :src="comment.avatar? comment.avatar:'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'"
       />
@@ -63,7 +66,6 @@
         </el-button>
 
         <el-button
-          v-show="comment.state===0"
           v-if="/\/admin\/*/.test($route.fullPath)"
           type="danger"
           class="btn right"
@@ -88,7 +90,7 @@
 </template>
 
 <script setup>
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { formatTime } from '../../utlis/time'
 import {deleteComment} from "../../api/comment"
 import { Star } from '@element-plus/icons-vue'
@@ -112,14 +114,24 @@ const recover = () => {
   emit('showPub', props.comment.id)
 }
 
-const delComment = async () => {
-  const data = await deleteComment(props.comment.id)
-
-  if (data.code === 0) {
-    ElMessage.success('修改成功')
-    emit("loadList")
-    // props.loadList()
-  }
+const delComment = () => {
+  ElMessageBox.confirm(
+    '是否删除文章？',
+    'Warning',
+    {
+      confirmButtonText: '确认',
+      cancelButtonText: '取消',
+      type: 'warning',
+    }
+  )
+    .then(() => {
+      deleteComment([props.comment.id]).then(res => {
+        ElMessage.success('删除成功')
+        emit("loadList")
+      })
+    })
+    .catch(() => {
+    })
 }
 function setTop() {
   emit("setWeight", props.comment.id, 3 - props.comment.weight)
@@ -137,8 +149,18 @@ function setTop() {
     border-top: dashed 1px #ddd;
     padding-top: 10px;
     margin-bottom: 20px;
+    position: relative;
   }
-
+.fixed-top {
+  position: absolute;
+  top: 5px;
+  left: -16px;
+  background-color: red;
+  color: aliceblue;
+  font-size: .7em;
+  padding: 1px 5px;
+  border-radius: 3px;
+}
   .el-avatar {
     float: left;
 

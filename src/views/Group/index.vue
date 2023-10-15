@@ -63,6 +63,7 @@ async function getMate() {
       searchParams.value.category = id
       res = await getCategory(id)
       group.value.name = res.data.category_name
+      group.value.summary = res.data.summary
       break
     case "tag":
       searchParams.value.tags = [id]
@@ -73,6 +74,7 @@ async function getMate() {
       searchParams.value.series = id
       res = await getSeries(id)
       group.value.name = res.data.series_name
+      group.value.summary = res.data.summary
       break
   }
 
@@ -98,6 +100,7 @@ getMate()
       <div class="info">
         <h1>{{ group.name }}</h1>
       </div>
+      <div class="intro">{{ group.summary }}</div>
     </div>
     <img src="../../assets/images/aya.png" alt="">
   </div>
@@ -176,6 +179,15 @@ getMate()
   font-size: 3em;
   font-weight: 600;
   margin-bottom: 20px;
+}
+.mask .intro {
+  width: 800px;
+  position: absolute;
+  bottom: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  color: aliceblue;
+  text-align: center;
 }
 .article-section {
   min-width: 600px;

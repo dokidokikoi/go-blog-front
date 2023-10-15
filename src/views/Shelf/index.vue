@@ -28,6 +28,7 @@ const list = ref([])
 const shelfData = ref([])
 
 function getListList() {
+  pageLoading.value = false
   listList(searchParam.value).then(res => {
     list.value = list.value.concat(res.data.list)
     shelfData.value = []
@@ -48,6 +49,7 @@ function getListList() {
   })
 }
 function typeChange(type) {
+  loading.value = true
   list.value = []
   searchParam.value.type = type
   getListList()

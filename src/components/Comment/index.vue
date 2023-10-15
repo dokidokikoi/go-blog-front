@@ -103,7 +103,7 @@ const param = reactive({
   keyword: '',
   page: 1,
   page_size: 10,
-  order_by: "weight desc, id asc",
+  order_by: "weight desc, id desc",
   article_id: 0,
 })
 

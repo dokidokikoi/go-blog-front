@@ -24,18 +24,19 @@ const searchParams = ref({
   category: 1
 })
 const pagination = ref({
-  page: 1,
+  page: 0,
   page_size: 6,
   order_by: "weight desc, created_at desc"
 })
 function loadArticle() {
-  loading.value = true;
+  pageLoading.value = true;
+  pagination.value.page += 1
   listArticle(searchParams.value, pagination.value).then(res => {
     articles.value = articles.value.concat(res.data.list)
     totalCount.value = res.data.total
   }).finally(()=>{
-    loading.value = false;
     pageLoading.value = false
+    loading.value = false
   })
 }
 
@@ -55,6 +56,9 @@ loadArticle()
 <div class="article-page">
   <div class="article-section">
     <div class="article" v-for="item in articles" :key="item.id">
+      <div class="fixed-top" v-if="item.weight > 1">
+      置顶
+      </div>
       <RouterLink class="cover" :to="`/article/${item.id}`">
         <img :src="item.cover" alt="">
       </RouterLink>
@@ -65,7 +69,7 @@ loadArticle()
           <p style="display: flex; align-items: center;margin-left: 8px;"><Comment width="14" height="14" /> <span> {{ item.comment_counts }}</span></p>
           <!-- <p style="margin-left: 10px;">1023字</p> -->
         </div>
-        <h2 class="title">{{item.title}}</h2>
+        <RouterLink class="title" :to="`/article/${item.id}`">{{item.title}}</RouterLink>
         <br>
         <p class="description">{{ item.summary }}</p>
         <br>
@@ -111,6 +115,7 @@ loadArticle()
   transition: all .2s ease-in-out 0s;
   background-color: white;
   box-shadow: 0 0 10px rgba(0,0,0,.1);
+  position: relative;
 }
 .article:hover {
   box-shadow: 0 0 2rem var(--box-bg-shadow);
@@ -146,12 +151,23 @@ loadArticle()
 }
 .info {
   width: 50%;
-  padding: 20px 20px 40px 0;
+  padding: 16px 20px 40px 0;
   position: relative;
 }
-
+.title {
+  text-decoration: none;
+  color: black;
+  font-size: 1.4em;
+  font-weight: 600;
+  margin: 20px 0;
+  display: inline-block;
+}
+.title:hover {
+  cursor: pointer;
+  color: red;
+}
 .article:nth-child(even) .info {
-  padding: 20px 0 40px 20px;
+  padding: 24px 0 40px 20px;
 }
 
 .meta {
@@ -224,5 +240,17 @@ loadArticle()
 }
 .previous .loading {
   margin: 20px 0;
+}
+
+.fixed-top {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  background-color: red;
+  color: aliceblue;
+  font-size: .7em;
+  padding: 1px 5px;
+  border-radius: 3px;
+  z-index: 10;
 }
 </style>
