@@ -23,6 +23,7 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;
+  background-position-x: center;
   z-index: -1;
 }
 .container {
@@ -77,5 +78,10 @@
   }
   100% {
     background-position: -1233px;}
+}
+@media (max-width: 800px) {
+  .container {
+    height: 360px !important;
+  }
 }
 </style>

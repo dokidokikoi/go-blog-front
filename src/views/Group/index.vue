@@ -191,7 +191,7 @@ getMate()
   text-align: center;
 }
 .article-section {
-  min-width: 600px;
+  /* min-width: 600px; */
   max-width: 900px;
   display: flex;
   flex-direction: column;
@@ -320,5 +320,15 @@ getMate()
 }
 .previous .loading {
   margin: 20px 0;
+}
+@media (max-width: 800px) {
+  .bannar {
+    height: 280px;
+  }
+  .info h1 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-bottom: 0px;
+  }
 }
 </style>
