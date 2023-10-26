@@ -2,7 +2,9 @@
 	<div class="viewer" ref="viewerRef">
 
 		<v-md-preview class="content" :include-level="[3, 4]" :text="text" ref="preview" @image-click="imageFocus"></v-md-preview>
+		<div class="dummy">
 
+		</div>
 		<div class="index" :style="`height:${pageHeight}px`">
 			<div class="toc">
 				<div
@@ -137,16 +139,20 @@ function imageFocus(images, currentIndex) {
 
 <style scoped>
 .viewer {
-
+	display: flex;
 }
 .content {
 	width: calc(100% - 17em);
 	margin: auto;
 	margin-top: 10px;
 }
+.dummy {
+	width: 17em;
+	height: 100%;
+}
 .index {
 	top: 0;
-	right: calc((100% - 1400px)/2);
+	right: 0;
 	position: absolute;
 	width: 17em;
 	padding-left: 20px;
@@ -158,5 +164,16 @@ function imageFocus(images, currentIndex) {
 	top: 80px;
 	overflow-y: auto;
 	max-height: 500px;
+}
+@media (max-width: 800px) {
+  .dummy {
+		display: none;
+	}
+	.index {
+		display: none;
+	}
+	.content {
+		width: 90%;
+	}
 }
 </style>

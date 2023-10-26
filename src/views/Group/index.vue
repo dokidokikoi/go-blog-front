@@ -32,7 +32,7 @@ const searchParams = ref({
   series: 0
 })
 const pagination = ref({
-  page: 1,
+  page: 0,
   page_size: 6,
   order_by: "weight desc, created_at desc"
 })

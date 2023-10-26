@@ -98,8 +98,8 @@ host.value = getItem("host")
   margin-top: 40px;
 }
 .viewer {
-  min-width: 800px;
-  max-width: 1100px;
+  /* min-width: 800px;*/
+  max-width: 1100px; 
   margin: auto;
 }
 .cover {
@@ -193,5 +193,23 @@ host.value = getItem("host")
 .tag:hover {
   cursor: pointer;
   color: chocolate;
+}
+@media (max-width: 800px) {
+  .cover {
+    height: 280px;
+  }
+  .mask .info {
+    width: 90%;
+    position: absolute;
+    bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    color: aliceblue;
+  }
+  .info .title {
+    font-size: 2.4em;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
 }
 </style>
