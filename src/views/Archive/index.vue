@@ -18,7 +18,7 @@ import TimeLine from './TimeLine.vue';
 .body {
   /* display: flex;
   justify-content: space-between; */
-  width: 45rem;
+  max-width: 45rem;
   margin: auto;
   background-color: white;
 }

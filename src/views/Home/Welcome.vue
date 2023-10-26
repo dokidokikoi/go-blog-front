@@ -22,7 +22,15 @@ import SayHello from '@/components/SayHello/index.vue';
   display: flex;
   justify-content: space-between;
   max-width: 74rem;
-  min-width: 60rem;
   margin: auto;
+}
+@media (max-width: 800px) {
+  .article-page {
+    width: 540px;
+    margin: auto;
+  }
+  .panel {
+    display: none;
+  }
 }
 </style>

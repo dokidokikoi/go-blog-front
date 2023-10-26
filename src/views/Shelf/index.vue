@@ -26,8 +26,37 @@ const searchParam = ref({
 })
 const list = ref([])
 const shelfData = ref([])
-
+let colCount = 4
+// 添加屏幕大小变化的事件监听器
+window.addEventListener('resize', function() {
+  // 在窗口大小变化时执行的代码
+  // 可以在这里处理响应式布局、调整元素大小、重新渲染等操作
+  const windowWidth = window.innerWidth;
+  let flag = false
+  if (colCount == 4 && windowWidth <= 800) {
+    colCount = 2
+    flag = true
+  } else if (colCount == 2 && windowWidth > 800) {
+    colCount = 4
+    flag = true
+  }
+  if (flag) {
+    shelfData.value = []
+    let level = -1
+    let cnt = 0
+    list.value.forEach(e => {
+      if (cnt++%colCount == 0) {
+        level++
+        shelfData.value.push([e])
+      } else {
+        shelfData.value[level].push(e)
+      }
+    })
+  }
+});
 function getListList() {
+  colCount = window.innerWidth <= 800 ? 2 : 4;
+
   pageLoading.value = false
   listList(searchParam.value).then(res => {
     list.value = list.value.concat(res.data.list)
@@ -35,7 +64,7 @@ function getListList() {
     let level = -1
     let cnt = 0
     list.value.forEach(e => {
-      if (cnt++%4 == 0) {
+      if (cnt++%colCount == 0) {
         level++
         shelfData.value.push([e])
       } else {
@@ -121,7 +150,6 @@ getListList()
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80rem;
   margin: auto;
   padding-top: 30px;
   background-color: white;

@@ -15,9 +15,9 @@ import { RouterView } from "vue-router";
 </template>
 
 <style scoped>
-.common-layout {
+/* .common-layout { */
   /* position: relative; */
-}
+/* } */
 .el-header {
   --el-header-padding: 0;
 }
@@ -30,6 +30,7 @@ import { RouterView } from "vue-router";
 .main {
   /* margin-top: 60px; */
   padding: 0;
+  overflow-x: hidden;
 }
 
 .el-footer {

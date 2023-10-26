@@ -82,7 +82,7 @@ loadArticle()
 }
 ul {
   list-style: none;
-  margin: 0;
+  margin-left: 30px;
   left: -45px;
 }
 .post-li a {

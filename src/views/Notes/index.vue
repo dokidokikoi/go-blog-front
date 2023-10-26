@@ -50,8 +50,8 @@ loadArticle()
   <Bannar />
   <div style="background-color: white; width: 100%;">
     <div class="body">
-      <Article v-if="articles.length > 0" :articles="articles" :page-size="pagination.page_size" :total="totalCount" @currentChange="currentChange" />
-      <InfoPanel />
+      <Article class="articles" v-if="articles.length > 0" :articles="articles" :page-size="pagination.page_size" :total="totalCount" @currentChange="currentChange" />
+      <InfoPanel class="info-panel" />
     </div>
   </div>
 </div>
@@ -61,8 +61,17 @@ loadArticle()
 .body {
   display: flex;
   justify-content: space-between;
-  width: 66rem;
+  max-width: 66rem;
   margin: auto;
   background-color: white;
+}
+@media (max-width: 800px) {
+  .articles {
+    width: 540px;
+    margin: auto;
+  }
+  .info-panel {
+    display: none !important;
+  }
 }
 </style>

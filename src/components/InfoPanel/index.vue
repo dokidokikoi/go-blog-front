@@ -87,15 +87,19 @@ search()
   </div>
   <div class="all-tags">
     <div class="label">标签</div>
-    <div class="content">
-      <a class="tag" @click="to(tag.id, 'tag')" v-for="tag in tags">#{{ tag.tag_name }}</a>
-    </div>
+    <ul class="content">
+      <li class="tag" v-for="tag in tags">
+        <a @click="to(tag.id, 'tag')" >#{{ tag.tag_name }}</a>
+      </li>
+    </ul>
   </div>
   <div class="all-tags" style="margin-top: 20px;">
     <div class="label">系列</div>
-    <div class="content">
-      <a class="tag" @click="to(s.id, 'series')" v-for="s in series">#{{ s.series_name }}</a>
-    </div>
+    <ul class="content">
+      <li class="tag" v-for="s in series">
+        <a @click="to(s.id, 'series')">#{{ s.series_name }}</a>
+      </li>
+    </ul>
   </div>
 </div>
 </template>
@@ -177,15 +181,27 @@ search()
 }
 .all-tags .content {
   margin-top: 10px;
+  list-style: none;
+  margin-top: 7px;
+  margin-left: 5px;
+  padding: 0;
+}
+.all-tags .content::after {
+  display: table;
+  content: "";
+  clear: both;
 }
 .all-tags .content .tag {
   margin: 0 6px 0 0;
+  float: left;
+}
+.all-tags .content .tag a {
   color: rgb(74, 74, 238);
   font-size: 1.1em;
   transition: all .2s ease-in-out 0s;
   font-size: .9em;
 }
-.all-tags .content .tag:hover {
+.all-tags .content .tag:hover a {
   cursor: pointer;
   color: coral;
 }

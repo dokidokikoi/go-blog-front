@@ -62,7 +62,7 @@ watch(props.list, async (newQuestion, oldQuestion) => {
 
 <style scoped>
 .bookshelfs {
-  width: 900px;
+  max-width: 900px;
   margin-top: 40px;
 }
 .bookshelf {
@@ -83,15 +83,22 @@ watch(props.list, async (newQuestion, oldQuestion) => {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
 }
+@media (max-width: 800px) {
+    /*0~320*/
+  .book-grid ul {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 .book-grid ul li {
   justify-self: center;
-  display: block;
-  width: 170px;
+  display: flex;
+  justify-content: center;
+  width: 214px;
   height: 240px;
 }
 .container {
   position: relative;
-  width: 100%;
+  width: 170px;
 	height: 100%;
 }
 .card {

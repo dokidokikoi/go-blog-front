@@ -44,6 +44,7 @@ watch(route, async (newQuestion, oldQuestion) => {
 
 function loadArticle() {
   pageLoading.value = true;
+  pagination.value.page += 1
   listArticle(searchParams.value, pagination.value).then(res => {
     articles.value = articles.value.concat(res.data.list)
     totalCount.value = res.data.total

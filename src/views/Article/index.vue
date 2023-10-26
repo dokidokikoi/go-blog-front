@@ -93,7 +93,6 @@ host.value = getItem("host")
   width: 100%;
 }
 .comments {
-  min-width: 400px;
   max-width: 840px;
   margin: auto;
   margin-top: 40px;

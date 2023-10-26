@@ -33,12 +33,12 @@
 }
 .waves {
   width: 100%;
-  height: 15vh;
+  height: 75px;
   margin-bottom: -0.688rem;
   min-height: 3.125rem;
   max-height: 9.375rem;
   position: absolute;
-  bottom: -22px;
+  bottom: 0px;
 }
 .wave {
   background: url("https://gcore.jsdelivr.net/gh/starlovei/cdn/img/other/wave1.png");
@@ -50,22 +50,23 @@
   bottom: 0;
   width: 400%;
   overflow: visible;
+  background-position: 0;
 }
 .item1 {
   left: -236px;
-  height: 19vh;
+  height: 77px;
   opacity: 1;
   animation: wave 22s linear infinite;
 }
 .item2 {
   left: -246px;
-  height: 21vh;
+  height: 82px;
   opacity: 0.8;
   animation: wave 14s linear infinite;
 }
 .item3 {
   left: -286px;
-  height: 23vh;
+  height: 100px;
   opacity: 0.6;
   animation: wave 18s linear infinite;
 }
