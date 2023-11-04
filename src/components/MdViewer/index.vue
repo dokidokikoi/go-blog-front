@@ -18,13 +18,15 @@
 		</div>
 	</div>
 
-	<el-dialog v-model="dialogImageVisible" center fullscreen @dblclick="close()" @close="close" style="background: transparent;">
+	<div class="dialog" @dblclick="close()">
+		<el-dialog v-model="dialogImageVisible" center fullscreen  @close="close">
     <el-carousel :initial-index="dialogImageIndex" :autoplay="false" height="85vh" title="双击关闭">
       <el-carousel-item v-for="item in dialogImages" :key="item">
         <img :src="item" style="fit:cover; width: 100%;"/>
       </el-carousel-item>
     </el-carousel>
   </el-dialog>
+	</div>
 </template>
 
 <script setup>
@@ -183,5 +185,8 @@ function close() {
 	.content {
 		width: 90%;
 	}
+}
+.dialog :deep(.el-dialog) {
+	background-color: transparent;
 }
 </style>
