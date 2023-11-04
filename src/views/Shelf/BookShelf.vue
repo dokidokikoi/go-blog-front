@@ -143,7 +143,7 @@ watch(props.list, async (newQuestion, oldQuestion) => {
   top: 10px;
 }
 .back .footer {
-  bottom: 20px;
+  bottom: 10px;
 }
 .back .title {
   padding: 0 10px;
@@ -162,7 +162,7 @@ watch(props.list, async (newQuestion, oldQuestion) => {
   padding: 0 16px;
 }
 :deep(.el-progress__text)  {
-  font-size: 4px !important;
+  font-size: 10px !important;
   min-width: 0 !important;
   color: #005CAF;
 }
@@ -172,17 +172,17 @@ watch(props.list, async (newQuestion, oldQuestion) => {
   top: -6px;
 }
 .back .intro {
-  height: 6.4rem;
-  font-size: .875em;
+  height: 7.9rem;
+  font-size: .675em;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 5;
+  -webkit-line-clamp: 8;
   text-overflow: ellipsis;
   overflow-wrap: break-word;
   width: 100%;
-  padding: 0 10px;
-  margin-bottom: 20px;
+  padding: 0 14px;
+  margin-bottom: 8px;
 }
 .back .author {
   font-size: .8em;

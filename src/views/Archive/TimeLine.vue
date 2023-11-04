@@ -10,7 +10,7 @@ const globalStore = useGlobalStore()
 const { loading } = storeToRefs(globalStore)
 loading.value = false
 
-const articles = ref({})
+const articles = ref(new Map())
 // let artciles = {
 //   "2023": {"8": ["golang高级技巧", "golang常用工具"], "9": ["nas搭建"]},
 //   "2022": {"6": ["linux常用命令"]},
@@ -28,17 +28,17 @@ function getTimeLine(data) {
   data.forEach(element => {
     const y = getYear(element.created_at)
     const m = getMonth(element.created_at)
-    if (articles.value[y]) {
-      if (articles.value[y][m]) {
-        articles.value[y][m].push(element)
+    if (articles.value.has(y)) {
+      if (articles.value.get(y).has(m)) {
+        articles.value.get(y).get(m).push(element)
       } else {
-        articles.value[y][m] = [element]
+        articles.value.get(y).set(m, [element])
       }
     } else {
-      articles.value[y] = {}
-      articles.value[y][m] = [element]
+      articles.value.set(y, new Map().set(m, [element]))
     }
   });
+  console.log(articles.value)
 }
 
 function loadArticle() {
@@ -54,16 +54,16 @@ loadArticle()
 <template>
 <div>
   <template v-if="articles">
-    <template v-for="years, yk in articles">
-      <h3 class="year">{{ yk }}</h3>
+    <template v-for="years in articles">
+      <h3 class="year">{{ years[0] }}</h3>
       <ul class="mth-list">
-        <li class="mth-li" v-for="mth, mk in years">
+        <li class="mth-li" v-for="mth in years[1]">
           <span class="mth-span">
-            <span style="color: #6ecaf5;font-weight: 600;">{{ mk }}月</span>
-            <span style="font-weight: 500;">    ({{ mth.length }} 篇文章)</span>
+            <span style="color: #6ecaf5;font-weight: 600;">{{ mth[0] }}月</span>
+            <span style="font-weight: 500;">    ({{ mth[1].length }} 篇文章)</span>
           </span>
           <ul class="post-list">
-            <li class="post-li" v-for="post in mth">
+            <li class="post-li" v-for="post in mth[1]">
               <RouterLink :to="`/article/${post.id}`">{{ post.title }}</RouterLink>
             </li>
           </ul>

@@ -18,17 +18,17 @@
 		</div>
 	</div>
 
-	<el-dialog v-model="dialogImageVisible" center>
-    <el-carousel :initial-index="dialogImageIndex" :autoplay="false" height="400px">
+	<el-dialog v-model="dialogImageVisible" center fullscreen @dblclick="close()" @close="close" style="background: transparent;">
+    <el-carousel :initial-index="dialogImageIndex" :autoplay="false" height="85vh" title="双击关闭">
       <el-carousel-item v-for="item in dialogImages" :key="item">
-        <el-image :src="item" fit="cover"/>
+        <img :src="item" style="fit:cover; width: 100%;"/>
       </el-carousel-item>
     </el-carousel>
   </el-dialog>
 </template>
 
 <script setup>
-import { onMounted, ref, watch, getCurrentInstance } from "vue"
+import { onMounted, nextTick, ref, watch, getCurrentInstance, onUpdated } from "vue"
 
 const props = defineProps({
   text: {
@@ -43,13 +43,15 @@ const props = defineProps({
 
 const viewerRef = ref(null)
 const pageHeight = ref(0)
-onMounted(()=>{
-	pageHeight.value = viewerRef.value.clientHeight+20;
-})
-watch(viewerRef, async (newQuestion, oldQuestion) => {
-  pageHeight.value = viewerRef.value.clientHeight+20;
-})
 
+onMounted(() => {
+	let imgs = document.querySelectorAll('.content img')
+	imgs.forEach(e => {
+		e.addEventListener('load', function () {
+			pageHeight.value = viewerRef.value.clientHeight-20;
+		})
+	})
+})
 // let text = ref(`
 // # heading 1
 // contentcontentcontent
@@ -134,6 +136,11 @@ function imageFocus(images, currentIndex) {
   dialogImageVisible.value = true
   dialogImages.value = images
   dialogImageIndex = currentIndex
+	document.body.style.overflow = 'hidden'
+}
+function close() {
+	dialogImageVisible.value = false
+	document.body.style.overflow = 'auto'
 }
 </script>
 
@@ -143,6 +150,7 @@ function imageFocus(images, currentIndex) {
 }
 .content {
 	width: calc(100% - 17em);
+	max-width: 845px;
 	margin: auto;
 	margin-top: 10px;
 }
@@ -152,7 +160,7 @@ function imageFocus(images, currentIndex) {
 }
 .index {
 	top: 0;
-	right: 0;
+	right: calc((100% - 950px - 250px)/2);
 	position: absolute;
 	width: 17em;
 	padding-left: 20px;
@@ -165,7 +173,7 @@ function imageFocus(images, currentIndex) {
 	overflow-y: auto;
 	max-height: 500px;
 }
-@media (max-width: 800px) {
+@media (max-width: 1100px) {
   .dummy {
 		display: none;
 	}

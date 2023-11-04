@@ -44,15 +44,16 @@ function jump(path) {
       <!-- <div class="last-item"><Avatar /></div> -->
       <div class="last-item hidden">
         <input id="menu-btn" @click="console.log('hi')" type="checkbox">
-        <label for="menu-btn"></label>
-        <ul class="mini-menu">
-          <li class="mini-menu-item" @click="jump('/')"><TechIcon class="menu-icon"/>首页</li>
-          <li class="mini-menu-item" @click="jump('/notes')"><NoteIcon class="menu-icon"/>随笔</li>
-          <li class="mini-menu-item" @click="jump('/archives')"><ArchiveIcon class="menu-icon"/>归档</li>
-          <li class="mini-menu-item" @click="jump('/shelf')"><ShekfIcon class="menu-icon"/>书架</li>
-          <li class="mini-menu-item" @click="jump('/link')"><LinkIcon class="menu-icon"/>友链</li>
-          <li class="mini-menu-item" @click="jump('/intro')"><RobotIcon class="menu-icon"/>关于</li>
-        </ul>
+        <label for="menu-btn">
+          <ul class="mini-menu">
+            <li class="mini-menu-item" @click="jump('/')"><TechIcon class="menu-icon"/>首页</li>
+            <li class="mini-menu-item" @click="jump('/notes')"><NoteIcon class="menu-icon"/>随笔</li>
+            <li class="mini-menu-item" @click="jump('/archives')"><ArchiveIcon class="menu-icon"/>归档</li>
+            <li class="mini-menu-item" @click="jump('/shelf')"><ShekfIcon class="menu-icon"/>书架</li>
+            <li class="mini-menu-item" @click="jump('/link')"><LinkIcon class="menu-icon"/>友链</li>
+            <li class="mini-menu-item" @click="jump('/intro')"><RobotIcon class="menu-icon"/>关于</li>
+          </ul>
+        </label>
       </div>
       <div class="last-item"><Search /></div>
     </li>
@@ -218,7 +219,7 @@ label:after{
   transform: translateX(200px);
   -webkit-transform: translateX(200px);
 }
-#menu-btn:checked ~ .mini-menu {
+#menu-btn:checked + label .mini-menu {
   transform: translateX(0px);
   -webkit-transform: translateX(0px);
 }
