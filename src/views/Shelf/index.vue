@@ -81,6 +81,7 @@ function typeChange(type) {
   loading.value = true
   list.value = []
   searchParam.value.type = type
+  searchParam.value.page = 1
   getListList()
 }
 function active(type) {
@@ -137,7 +138,7 @@ getListList()
       </div>
       <BookShelf v-if="shelfData.length > 0" :list="shelfData" />
       <div class="previous" v-show="totalCount>list.length">
-        <button v-show="!pageLoading&&totalCount>list.length" class="btn" @click="getListList()">Previous</button>
+        <button v-show="!pageLoading&&totalCount>list.length" class="btn" @click="searchParam.page++ && getListList()">Previous</button>
         <UnderLoading v-show="pageLoading" class="loading" />
       </div>
     </div>
